@@ -1,4 +1,4 @@
-#include <stdio.h> // Header file
+#include <stdio.h>
 
 int xPointInput(int number);
 int yPointInput(int number);
@@ -24,8 +24,6 @@ void main()
             for (k=1; k<=3; ++k) { // fullfilling the array
             array[k][1]=xPointInput(k);
             array[k][2]=yPointInput(k);
-            //printf("x %d", array[k][1]);
-            //printf("y %d", array[k][2]);
         }
             switch(isIncludeCheck(array[1][1], array[2][1], array[3][1], array[1][2], array[2][2], array[3][2]))
             {
@@ -108,10 +106,8 @@ void main()
             int k; // Cycle`s iteration | Number of point
             for (k=1; k<=4; ++k) // fullfilling the array
             {
-                array[k][1]=point_x(k);
-                array[k][2]=point_y(k);
-                //printf("x %d", array[k][1]);
-                //printf("y %d", array[k][2]);
+                array[k][1]=xPointInput(k);
+                array[k][2]=yPointInput(k);
             }
             switch(isIncludeCheck(array[1][1], array[2][1], array[3][1], array[1][2], array[2][2], array[3][2]))
             {
@@ -209,17 +205,17 @@ int yPointInput(int number) // Number of point
     return coord;
 }
 
-int rightPrint(void) // 2.3.2 output
+int rightPrint(void) // 2.3.2
 {
     printf("\nPoint is to the right side from vector (p1,p2)."); // 2.3.2
 }
 
-int leftPrint(void) // 2.3.1 output
+int leftPrint(void) // 2.3.1
 {
     printf("\nPoint is to the left side from vector (p1,p2)."); // 2.3.1
 }
 
-int includePrint(void) // 2.4 output
+int includePrint(void) // 2.4
 {
     printf("\nLine includes the point.");
 }
@@ -229,12 +225,12 @@ int inappropriateInputPrint(void) // 1.2/2.4
     printf("Inappropriate input!");
 }
 
-int sectorPrint(int n) // 3.1 output
+int sectorPrint(int n) // 3.1
 {
     printf("\nPoint is in the №%i%s", n, " sector."); // 3.1
 }
 
-int isIncludeCheck(int x1, int x2, int x3, int y1, int y2, int y3) // Matching points check
+int isIncludeCheck(int x1, int x2, int x3, int y1, int y2, int y3)
 {
     int n;
     if((x1==x2)&&(y1==y2)) n = 1; // 1.2
@@ -246,7 +242,7 @@ int isIncludeCheck(int x1, int x2, int x3, int y1, int y2, int y3) // Matching p
     return n;
 }
 
-int isSectorCheck(int x1, int x2, int x3, int y1, int y2, int y3) // y comparision  
+int isSectorCheck(int x1, int x2, int x3, int y1, int y2, int y3)
 {
     int n;
     if(y3>((x3-x2)*(y1-y2)/(x1-x2)+y2)) n = 1;
@@ -254,7 +250,10 @@ int isSectorCheck(int x1, int x2, int x3, int y1, int y2, int y3) // y comparisi
     return n;
 }
 
-//
+
+
+
+
 // 1.1 - Неверное количество точек
 // 1.2 - Вершины совпадают
 // 2.3.1 - Точка слева от вектора (p1,p2)
