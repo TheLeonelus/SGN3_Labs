@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int xPointInput(int number) // Number of point
+int xPointInput(int number)
 {
     int coord;  // Input of X-coord
     printf("\nInput point %i%s%i%s",number, ":\nx", number, ": ");
@@ -8,7 +8,7 @@ int xPointInput(int number) // Number of point
     return coord;
 }
 
-int yPointInput(int number) // Number of point
+int yPointInput(int number)
 {
     int coord;  // Input of Y-coord
     printf("\ny%i%s", number, ": ");
@@ -31,7 +31,7 @@ int includePrint(void) // 2.4 output
     printf("\nLine includes the point.");
 }
 
-int inappropriateInputPrint(void) // 1.2/2.4 output
+int inappropriateInputPrint(void) // 1.2/2.4
 {
     printf("Inappropriate input!");
 }
@@ -129,7 +129,7 @@ int main(void)
 }
 
 
-// Для расчётов использоволось уравнение прямой по двум точкам, из которого выражался y
+
 // 1.1 - Неверное количество точек
 // 1.2 - Вершины совпадают
 // 2.3.1 - Точка слева от вектора (p1,p2)
