@@ -60,9 +60,10 @@ void main()
                     }
                     else
                     {
+                        int y13 = (((array[3][1]-array[2][1])*(array[1][2]-array[2][2]))/(array[1][1]-array[2][1])+array[2][2]);
                         if((array[2][1]-array[1][1])>0)
                         {
-                            if(array[3][2]<(((array[3][1]-array[2][1])*(array[1][2]-array[2][2]))/(array[1][1]-array[2][1])+array[2][2]))
+                            if(array[3][2]<y13)
                             {
                                 rightPrint();
                                 break;
@@ -75,7 +76,7 @@ void main()
                         }
                         else
                         {
-                            if(array[3][2]<(((array[3][1]-array[2][1])*(array[1][2]-array[2][2]))/(array[1][1]-array[2][1])+array[2][2]))
+                            if(array[3][2]<y13)
                             {
                                 leftPrint();
                                 break;
@@ -157,20 +158,20 @@ void main()
                                 }
                                 else
                                 {
-                                    sectorPrint(3); // 3.1.3
+                                    sectorPrint(3);
                                     break;
                                 }
                             }
                             else
                             {
-                                if(isSectorCheck(array[2][1], array[3][1], array [4][1], array[2][2], array[3][2], array[4][2])==1) // 23
+                                if(isSectorCheck(array[2][1], array[3][1], array [4][1], array[2][2], array[3][2], array[4][2])==1)
                                 {
-                                    sectorPrint(7); // 3.1.7
+                                    sectorPrint(7);
                                     break;
                                 }
                                 else 
                                 {
-                                    sectorPrint(4); // 3.1.4
+                                    sectorPrint(4);
                                     break;
                                 }
                             }
@@ -178,7 +179,7 @@ void main()
                     }
                     else
                     {
-                        includePrint(); // 2.4
+                        includePrint();
                         break;
                     }
                 }
@@ -259,15 +260,6 @@ int isSectorCheck(int x1, int x2, int x3, int y1, int y2, int y3)
 // 2.3.1 - Точка слева от вектора (p1,p2)
 // 2.3.2 - Точка справа от вектора (p1,p2)
 // 2.4 - Точка принадлежит линии
-// 2.4.1 - 3 точки лежат на одной прямой
-// 3.1.1 - 1 сектор
-// 3.1.2 - 2 сектор
-// 3.1.3 - 3 сектор
-// 3.1.4 - 4 сектор
-// 3.1.5 - 5 сектор
-// 3.1.6 - 6 сектор
-// 3.1.7 - 7 сектор
-// ____________________________________
 // Сектора:
 // 1 - Угловой точки p1
 // 2 - Боковой прямой p1-p2
