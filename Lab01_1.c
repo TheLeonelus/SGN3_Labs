@@ -91,12 +91,12 @@ void main()
                 }
                 case 1:
                 {
-                    inappropriateInputPrint(); // 1.2
+                    inappropriateInputPrint();
                     break;
                 }
                 case 2:
                 {
-                    includePrint(); // 2.4
+                    includePrint();
                     break;
                 }
             }
@@ -114,12 +114,12 @@ void main()
             {
                 case 1:
                 {
-                    inappropriateInputPrint(); // 1.2
+                    inappropriateInputPrint();
                     break;
                 }
                 case 2:
                 {
-                    inappropriateInputPrint(); // 1.2
+                    inappropriateInputPrint();
                     break;
                 }
                 case 0:
@@ -130,19 +130,19 @@ void main()
                         {
                             if(isSectorCheck(array[1][1], array[2][1], array [4][1], array[1][2], array[2][2], array[4][2])==1)
                             {
-                                sectorPrint(1); // 3.1.1
+                                sectorPrint(1);
                                 break;
                             }
                             else
                             {
                                 if(isSectorCheck(array[2][1], array[3][1], array [4][1], array[2][2], array[3][2], array[4][2])==1)
                                 {
-                                    sectorPrint(6); // 3.1.6
+                                    sectorPrint(6);
                                     break;
                                 }
                                 else 
                                 {
-                                    sectorPrint(5); // 3.1.5
+                                    sectorPrint(5);
                                     break;
                                 }
                             } 
@@ -153,7 +153,7 @@ void main()
                             {
                                 if(isSectorCheck(array[2][1], array[3][1], array [4][1], array[2][2], array[3][2], array[4][2])==1)
                                 {
-                                    sectorPrint(2); // 3.1.2
+                                    sectorPrint(2);
                                     break;
                                 }
                                 else
@@ -206,38 +206,38 @@ int yPointInput(int number) // Number of point
     return coord;
 }
 
-int rightPrint(void) // 2.3.2
+int rightPrint(void)
 {
-    printf("\nPoint is to the right side from vector (p1,p2)."); // 2.3.2
+    printf("\nPoint is to the right side from vector (p1,p2)."); 
 }
 
-int leftPrint(void) // 2.3.1
+int leftPrint(void)
 {
-    printf("\nPoint is to the left side from vector (p1,p2)."); // 2.3.1
+    printf("\nPoint is to the left side from vector (p1,p2).");
 }
 
-int includePrint(void) // 2.4
+int includePrint(void)
 {
     printf("\nLine includes the point.");
 }
 
-int inappropriateInputPrint(void) // 1.2/2.4
+int inappropriateInputPrint(void)
 {
     printf("Inappropriate input!");
 }
 
-int sectorPrint(int n) // 3.1
+int sectorPrint(int n)
 {
-    printf("\nPoint is in the №%i%s", n, " sector."); // 3.1
+    printf("\nPoint is in the №%i%s", n, " sector.");
 }
 
 int isIncludeCheck(int x1, int x2, int x3, int y1, int y2, int y3)
 {
     int n;
-    if((x1==x2)&&(y1==y2)) n = 1; // 1.2
+    if((x1==x2)&&(y1==y2)) n = 1;
     else 
     {
-        if(((x1==x2)&&(x2==x3))||(((y1==y2)&&(y2==y3))||(y3==((x3-x2)*(y1-y2))/(x1-x2)+y2))) n = 2; // 2.4.1
+        if(((x1==x2)&&(x2==x3))||(((y1==y2)&&(y2==y3))||(y3==((x3-x2)*(y1-y2))/(x1-x2)+y2))) n = 2;
         else n = 0;
     }
     return n;
@@ -251,15 +251,6 @@ int isSectorCheck(int x1, int x2, int x3, int y1, int y2, int y3)
     return n;
 }
 
-
-
-
-
-// 1.1 - Неверное количество точек
-// 1.2 - Вершины совпадают
-// 2.3.1 - Точка слева от вектора (p1,p2)
-// 2.3.2 - Точка справа от вектора (p1,p2)
-// 2.4 - Точка принадлежит линии
 // Сектора:
 // 1 - Угловой точки p1
 // 2 - Боковой прямой p1-p2
