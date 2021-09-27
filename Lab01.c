@@ -1,119 +1,69 @@
 #include <stdio.h>
 
-int xPointInput(int number)
-{
-    int coord;  // Input of X-coord
-    printf("\nInput point %i%s%i%s",number, ":\nx", number, ": ");
-    scanf("%d", &coord);
-    return coord;
-}
+#define RIGHTPRINT printf("\nPoint is to the right side from vector (p1,p1).")
+#define LEFTPRINT printf("\nPoint is to the left side from vector (p1,p2).")
+#define INCLUDEPRINT printf("\nLine includes the point.")
+#define INAPPROPRIATEINPUT printf("Inappropriate input!")
 
-int yPointInput(int number)
-{
-    int coord;  // Input of Y-coord
-    printf("\ny%i%s", number, ": ");
-    scanf("%d", &coord);
-    return coord;
-}
-
-int rightPrint(void) // Вывод случая "Точка справа от вектора"
-{
-    printf("\nPoint is to the right side from vector (p1,p2).");
-}
-
-int leftPrint(void) // Вывод случая "Точка слева от вектора"
-{
-    printf("\nPoint is to the left side from vector (p1,p2).");
-}
-
-int includePrint(void) // Точка пренадлежит линии
-{
-    printf("\nLine includes the point.");
-}
-
-int inappropriateInputPrint(void) // Точка лежит на прямой(-ых)
-{
-    printf("Inappropriate input!");
-}
-
-int isIncludeCheck(int x1, int x2, int x3, int y1, int y2, int y3)
-{
-    if((x1==x2)&&(y1==y2))
-        return 1; // Неверный ввод
-    if(((x1==x2)&&(x2==x3))||(((y1==y2)&&(y2==y3))||(y3==((x3-x2)*(y1-y2))/(x1-x2)+y2)))
-        return 2; // 3 точки лежат на одной прямой
-    return 0;
-}
-
-int sectorPrint(int n) // Вывод номера сектора
-{
-    printf("\nPoint is in the №%i%s", n, " sector.");
-}
-
-int isSectorCheck(int x1, int x2, int x3, int y1, int y2, int y3)
-{
-    if(y3>((x3-x2)*(y1-y2)/(x1-x2)+y2)) return 1;
-    return 0;
-}
+int pointInput(int number, int casetype); // casetype - Происходит ввод X(1) или Y(2)
+int isIncludeCheck(int x1, int x2, int x3, int y1, int y2, int y3);
+int isSectorCheck(int x1, int x2, int x3, int y1, int y2, int y3);
+int sectorPrint(int n);
 
 int main(void)
 {
     printf("Input number of points (assuming that points 1(Top),2(Right) <and 3(Left)> are apexes of the lines [3/4]: ");
-    int n; // Number of points
+    int n;
     scanf("%d", &n);
     switch(n) {
         case 3: { // Line-case
-            int array[3][2]; // Array with point-coordinates
-            int k; // Cycle`s iteration | Number of point
-            for (k=1; k<=3; ++k) { // fullfilling the array
-                array[k][0]=xPointInput(k);
-                array[k][1]=yPointInput(k);
-                printf("\nx: %d", array[k][0]);
-                printf("\ny: %d", array[k][1]);
+            int array[3][2];
+            for (int k=1; k<=3; ++k) {
+                array[k-1][0]=pointInput((k),1);
+                array[k-1][1]=pointInput((k),2);
             }  
             switch(isIncludeCheck(array[0][0], array[1][0], array[2][0], array[0][1], array[1][1], array[2][1])) {
                 case 0: {
                     if((array[0][0]==array[1][0])) {
                         if(array[0][1]>array[1][1]) {
                             if(array[0][0]<array[2][0])
-                                return leftPrint();
-                            return rightPrint();
+                                return LEFTPRINT;
+                            return RIGHTPRINT;
                         }
                         if(array[0][0]<array[2][0])
-                            return rightPrint();
-                        return leftPrint();
+                            return RIGHTPRINT;
+                        return LEFTPRINT;
                     }
                     int y13 = ((array[2][0]-array[1][0])*(array[0][1]-array[1][1]))/(array[0][0]-array[1][0])+array[1][1];
                     if((array[1][0]-array[0][0])>0) {
                         if(array[2][1]<y13)
-                            return rightPrint();
-                        return leftPrint();
+                            return RIGHTPRINT;
+                        return LEFTPRINT;
                     }
                     if(array[2][1]<y13)
-                        return leftPrint();
-                    return rightPrint();
+                        return LEFTPRINT;
+                    return RIGHTPRINT;
                     }
                 }
                 case 1: {
-                    return inappropriateInputPrint();
+                    return INAPPROPRIATEINPUT;
                 }
                 case 2: {
-                    return includePrint();
+                    return INCLUDEPRINT;
                 }
             }
         case 4: { // triangle-case
-            int array[4][2]; // Array with point-coordinates
-            int k; // Cycle`s iteration | Number of point
-            for (k=1; k<=4; ++k) { // fullfilling the array
-                array[k][0]=xPointInput(k);
-                array[k][1]=yPointInput(k);
+            int array[4][2];
+            for (int k=1; k<=4; ++k) {
+                array[k-1][0]=pointInput(k, 1);
+                array[k-1][1]=pointInput(k, 2);
             }
             switch(isIncludeCheck(array[0][0], array[1][0], array[2][0], array[0][1], array[1][1], array[2][1])) {
                 case 1: {
-                    return inappropriateInputPrint();
+                    return INAPPROPRIATEINPUT;
                 }
                 case 2: {
-                    return inappropriateInputPrint();
+                    return INAPPROPRIATEINPUT;
                 }
                 case 0: {
                     if((isIncludeCheck(array[0][0], array[1][0], array[3][0], array[0][1], array[1][1], array[3][1])==0)&&(isIncludeCheck(array[1][0], array[2][0], array[3][0], array[1][1], array[2][1], array[3][1])==0)&&(isIncludeCheck(array[0][0], array[2][0], array[3][0], array[0][1], array[2][1], array[3][1])==0)) {
@@ -133,15 +83,78 @@ int main(void)
                             return sectorPrint(7);
                         return sectorPrint(4);
                     }
-                    return includePrint();
+                    return INCLUDEPRINT;
                 }
             }          
         }
     }
 }
 
+int pointInput(int number, int casetype)
+{
+    int coord; 
+    switch(casetype)
+    {
+        case(1):
+        {
+            printf("\nInput point %i%s%i%s",number, ":\nx", number, ": ");
+            scanf("%d", &coord);
+            return coord;
+        }
+        case(2):
+        {
+            printf("\ny%i%s", number, ": ");
+            scanf("%d", &coord);
+            return coord;
+        }
+    }
+}
+
+int isIncludeCheck(int x1, int x2, int x3, int y1, int y2, int y3)
+{
+    if((x1==x2)&&(y1==y2))
+        return 1; // Неверный ввод
+    if(((x1==x2)&&(x2==x3))||((y1==y2)&&(y2==y3)))
+        return 2; // 3 точки лежат на одной прямой
+    if(x1==x2)
+    {
+        if(x2==x3)
+            return 2;
+    }   
+        else 
+    {
+        if (y3==(((x3-x2)*(y1-y2))/(x1-x2)+y2)) 
+            return 2;
+    }
+    if (x3==x2)
+    {
+        if(y2==y3)
+            return 2;
+    }
+    return 0;
+}
+
+int isSectorCheck(int x1, int x2, int x3, int y1, int y2, int y3)
+{
+    if((x1==x2)||(x2==x3)||(y1==y2))
+    {
+        if(y3>y2)
+            return 1;
+        return 0;
+    }
+    else 
+    {
+        if(y3>((x3-x2)*(y1-y2)/(x1-x2)+y2)) 
+            return 1;
+        return 0;
+    }
+}
 
 
+int sectorPrint(int n) // Вывод номера сектора
+{
+    printf("\nPoint is in the №%i%s", n, " sector.");
+}
 // Сектора:
 // 1 - Угловой точки p1
 // 2 - Боковой прямой p1-p2
