@@ -259,3 +259,7 @@ int isSectorCheck(int x1, int x2, int x3, int y1, int y2, int y3)
 // 5 - Угловой точки p3
 // 6 - Боковой прямой p1-p3
 // 7 - Внутренний
+
+
+// Вынести print и вычисления в отдельные функции
+// xPoint и yPoint объединить

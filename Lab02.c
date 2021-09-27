@@ -102,7 +102,7 @@ double yValuesOutput()
     for(int i=0;i<=2;i++)
     {
         if(array[i][2]==1)
-            printf_s("NaN | ");
+            printf_s(" NaN  | ");
         else
             printf_s("%3.3lf%s", array[i][1], " | ");
     }
