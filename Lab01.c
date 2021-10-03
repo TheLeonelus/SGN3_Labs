@@ -10,65 +10,34 @@
 
 double pointInput(int number, int casetype); // casetype - Происходит ввод X или Y
 
+int caseInput();
 int isIncludeCheck(double x1, double x2, double x3, double y1, double y2, double y3);
 int isSectorCheck(double x1, double x2, double x3, double y1, double y2, double y3);
 int sectorPrint(int n);
 int lineCaseCalculation(double x1, double x2, double x3, double y1, double y2, double y3);
 int triangleCaseCalculation(double x1, double x2, double x3, double x4, double y1, double y2, double y3, double y4);
+int functionLine();
+int functionTriangle();
+
+int n;
 
 int main(void)
 {
-    printf_s("Input number of points (assuming that points 1(Top),2(Right) <and 3(Left)> are apexes of the lines [3/4]: ");
-    int n;
-    scanf_s("%d", &n);
+    caseInput();
     switch(n) {
         case 3: { // Line-case
-            double array[3][2];
-            for (int k=1; k<=3; ++k) {
-                array[k-1][0]=pointInput((k),1);
-                array[k-1][1]=pointInput((k),2);
-            }  
-            switch(isIncludeCheck(array[0][0], array[1][0], array[2][0], array[0][1], array[1][1], array[2][1])) {
-                case 0: {
-                    switch(lineCaseCalculation(array[0][0], array[1][0], array[2][0], array[0][1], array[1][1], array[2][1])) {
-                        case 0: {
-                            return LEFTPRINT;
-                        }
-                        case 1: {
-                            return RIGHTPRINT;
-                        }
-                    }
-                }
-                case 1: {
-                    return INAPPROPRIATEINPUT;
-                }
-                case 2: {
-                    return INCLUDEPRINT;
-                }
-            }
+            return functionLine();
         }
         case 4: { // triangle-case
-            double array[4][2];
-            for (int k=1; k<=4; ++k) {
-                array[k-1][0]=pointInput(k, 1);
-                array[k-1][1]=pointInput(k, 2);
-            }
-            switch(isIncludeCheck(array[0][0], array[1][0], array[2][0], array[0][1], array[1][1], array[2][1])) {
-                case 0: {
-                    if((isIncludeCheck(array[0][0], array[1][0], array[3][0], array[0][1], array[1][1], array[3][1])==0)&&(isIncludeCheck(array[1][0], array[2][0], array[3][0], array[1][1], array[2][1], array[3][1])==0)&&(isIncludeCheck(array[0][0], array[2][0], array[3][0], array[0][1], array[2][1], array[3][1])==0)) {
-                    return sectorPrint(triangleCaseCalculation(array[0][0], array[1][0], array[2][0], array[3][0], array[0][1], array[1][1], array[2][1], array[3][1]));
-                    }
-                    return INCLUDEPRINT;
-                }
-                case 1: {
-                    return INAPPROPRIATEINPUT;
-                }
-                case 2: {
-                    return INAPPROPRIATEINPUT;
-                }
-            }          
+            return functionTriangle();
         }
     }
+}
+
+int caseInput()
+{
+    printf_s("Input number of points (assuming that points 1(Top),2(Right) <and 3(Left)> are apexes of the lines [3/4]: ");
+    scanf_s("%d", &n);
 }
 
 double pointInput(int number, int casetype)
@@ -196,6 +165,57 @@ int sectorPrint(int n)
 {
     printf_s("\nPoint is in the №%i%s", n, " sector.\n");
 }
+
+int functionLine()
+{
+    double array[3][2];
+    for (int k=1; k<=3; ++k) {
+        array[k-1][0]=pointInput((k),1);
+        array[k-1][1]=pointInput((k),2);
+    }  
+    switch(isIncludeCheck(array[0][0], array[1][0], array[2][0], array[0][1], array[1][1], array[2][1])) {
+        case 0: {
+            switch(lineCaseCalculation(array[0][0], array[1][0], array[2][0], array[0][1], array[1][1], array[2][1])) {
+                case 0: {
+                    return LEFTPRINT;
+                }
+                case 1: {
+                    return RIGHTPRINT;
+                }
+            }
+        }
+        case 1: {
+            return INAPPROPRIATEINPUT;
+        }
+        case 2: {
+            return INCLUDEPRINT;
+        }
+    }
+}
+
+int functionTriangle()
+{
+    double array[4][2];
+    for (int k=1; k<=4; ++k) {
+        array[k-1][0]=pointInput(k, 1);
+        array[k-1][1]=pointInput(k, 2);
+    }
+    switch(isIncludeCheck(array[0][0], array[1][0], array[2][0], array[0][1], array[1][1], array[2][1])) {
+        case 0: {
+            if((isIncludeCheck(array[0][0], array[1][0], array[3][0], array[0][1], array[1][1], array[3][1])==0)&&(isIncludeCheck(array[1][0], array[2][0], array[3][0], array[1][1], array[2][1], array[3][1])==0)&&(isIncludeCheck(array[0][0], array[2][0], array[3][0], array[0][1], array[2][1], array[3][1])==0)) {
+            return sectorPrint(triangleCaseCalculation(array[0][0], array[1][0], array[2][0], array[3][0], array[0][1], array[1][1], array[2][1], array[3][1]));
+                }
+            return INCLUDEPRINT;
+        }
+        case 1: {
+            return INAPPROPRIATEINPUT;
+        }
+        case 2: {
+            return INAPPROPRIATEINPUT;
+        }
+    }   
+}
+
 // Сектора:
 // 1 - Угловой точки p1
 // 2 - Боковой прямой p1-p2
