@@ -1,48 +1,42 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
-#define RIGHTPRINT printf("\nPoint is to the right side from vector (p1,p1).")
-#define LEFTPRINT printf("\nPoint is to the left side from vector (p1,p2).")
-#define INCLUDEPRINT printf("\nLine includes the point.")
-#define INAPPROPRIATEINPUT printf("Inappropriate input!")
+#define RIGHTPRINT printf_s("\nPoint is to the right side from vector (p1,p1).")
+#define LEFTPRINT printf_s("\nPoint is to the left side from vector (p1,p2).")
+#define INCLUDEPRINT printf_s("\nLine includes the point.")
+#define INAPPROPRIATEINPUT printf_s("Inappropriate input!")
+#define PRECISION 0.00000000001
 
-int pointInput(int number, int casetype); // casetype - Происходит ввод X(1) или Y(2)
-int isIncludeCheck(int x1, int x2, int x3, int y1, int y2, int y3);
-int isSectorCheck(int x1, int x2, int x3, int y1, int y2, int y3);
+double pointInput(int number, int casetype); // casetype - Происходит ввод X или Y
+
+int isIncludeCheck(double x1, double x2, double x3, double y1, double y2, double y3);
+int isSectorCheck(double x1, double x2, double x3, double y1, double y2, double y3);
 int sectorPrint(int n);
+int lineCaseCalculation(double x1, double x2, double x3, double y1, double y2, double y3);
+int triangleCaseCalculation(double x1, double x2, double x3, double x4, double y1, double y2, double y3, double y4);
 
 int main(void)
 {
-    printf("Input number of points (assuming that points 1(Top),2(Right) <and 3(Left)> are apexes of the lines [3/4]: ");
+    printf_s("Input number of points (assuming that points 1(Top),2(Right) <and 3(Left)> are apexes of the lines [3/4]: ");
     int n;
-    scanf("%d", &n);
+    scanf_s("%d", &n);
     switch(n) {
         case 3: { // Line-case
-            int array[3][2];
+            double array[3][2];
             for (int k=1; k<=3; ++k) {
                 array[k-1][0]=pointInput((k),1);
                 array[k-1][1]=pointInput((k),2);
             }  
             switch(isIncludeCheck(array[0][0], array[1][0], array[2][0], array[0][1], array[1][1], array[2][1])) {
                 case 0: {
-                    if((array[0][0]==array[1][0])) {
-                        if(array[0][1]>array[1][1]) {
-                            if(array[0][0]<array[2][0])
-                                return LEFTPRINT;
+                    switch(lineCaseCalculation(array[0][0], array[1][0], array[2][0], array[0][1], array[1][1], array[2][1])) {
+                        case 0: {
+                            return LEFTPRINT;
+                        }
+                        case 1: {
                             return RIGHTPRINT;
                         }
-                        if(array[0][0]<array[2][0])
-                            return RIGHTPRINT;
-                        return LEFTPRINT;
-                    }
-                    int y13 = ((array[2][0]-array[1][0])*(array[0][1]-array[1][1]))/(array[0][0]-array[1][0])+array[1][1];
-                    if((array[1][0]-array[0][0])>0) {
-                        if(array[2][1]<y13)
-                            return RIGHTPRINT;
-                        return LEFTPRINT;
-                    }
-                    if(array[2][1]<y13)
-                        return LEFTPRINT;
-                    return RIGHTPRINT;
                     }
                 }
                 case 1: {
@@ -52,91 +46,96 @@ int main(void)
                     return INCLUDEPRINT;
                 }
             }
+        }
         case 4: { // triangle-case
-            int array[4][2];
+            double array[4][2];
             for (int k=1; k<=4; ++k) {
                 array[k-1][0]=pointInput(k, 1);
                 array[k-1][1]=pointInput(k, 2);
             }
             switch(isIncludeCheck(array[0][0], array[1][0], array[2][0], array[0][1], array[1][1], array[2][1])) {
+                case 0: {
+                    if((isIncludeCheck(array[0][0], array[1][0], array[3][0], array[0][1], array[1][1], array[3][1])==0)&&(isIncludeCheck(array[1][0], array[2][0], array[3][0], array[1][1], array[2][1], array[3][1])==0)&&(isIncludeCheck(array[0][0], array[2][0], array[3][0], array[0][1], array[2][1], array[3][1])==0)) {
+                    return sectorPrint(triangleCaseCalculation(array[0][0], array[1][0], array[2][0], array[3][0], array[0][1], array[1][1], array[2][1], array[3][1]));
+                    }
+                    return INCLUDEPRINT;
+                }
                 case 1: {
                     return INAPPROPRIATEINPUT;
                 }
                 case 2: {
                     return INAPPROPRIATEINPUT;
-                }
-                case 0: {
-                    if((isIncludeCheck(array[0][0], array[1][0], array[3][0], array[0][1], array[1][1], array[3][1])==0)&&(isIncludeCheck(array[1][0], array[2][0], array[3][0], array[1][1], array[2][1], array[3][1])==0)&&(isIncludeCheck(array[0][0], array[2][0], array[3][0], array[0][1], array[2][1], array[3][1])==0)) {
-                        if(isSectorCheck(array[0][0], array[2][0], array [3][0], array[0][1], array[2][1], array[3][1])==1) {
-                            if(isSectorCheck(array[0][0], array[1][0], array [3][0], array[0][1], array[1][1], array[3][1])==1)
-                                return sectorPrint(1);
-                            if(isSectorCheck(array[1][0], array[2][0], array [3][0], array[1][1], array[2][1], array[3][1])==1)
-                                return sectorPrint(6);
-                            return sectorPrint(5);
-                        }
-                        if(isSectorCheck(array[0][0], array[1][0], array [3][0], array[0][1], array[1][1], array[3][1])==1) {
-                            if(isSectorCheck(array[1][0], array[2][0], array[3][0], array[1][1], array[2][1], array[3][1])==1)
-                                return sectorPrint(2);
-                            return sectorPrint(3);
-                        }
-                        if(isSectorCheck(array[1][0], array[2][0], array [3][0], array[1][1], array[2][1], array[3][1])==1)
-                            return sectorPrint(7);
-                        return sectorPrint(4);
-                    }
-                    return INCLUDEPRINT;
                 }
             }          
         }
     }
 }
 
-int pointInput(int number, int casetype)
+double pointInput(int number, int casetype)
 {
-    int coord; 
+    double coord; 
+    int s = 5;
     switch(casetype)
     {
         case(1):
         {
-            printf("\nInput point %i%s%i%s",number, ":\nx", number, ": ");
-            scanf("%d", &coord);
+            printf_s("\nInput point %i%s%i%s",number, ":\nx", number, ": ");
+            scanf_s("%lf", &coord);
             return coord;
         }
         case(2):
         {
-            printf("\ny%i%s", number, ": ");
-            scanf("%d", &coord);
+            printf_s("y%i%s", number, ": ");
+            scanf_s("%lf", &coord);
             return coord;
         }
     }
 }
 
-int isIncludeCheck(int x1, int x2, int x3, int y1, int y2, int y3)
+int isIncludeCheck(double x1, double x2, double x3, double y1, double y2, double y3)
 {
-    if((x1==x2)&&(y1==y2))
+    double x12 = fabs(x1-x2);
+    double x23 = fabs(x2-x3);
+    double y12 = fabs(y1-y2);
+    double y23 = fabs(y2-y3);
+    if((x12<PRECISION)&&(y12<PRECISION))
         return 1; // Неверный ввод
-    if(((x1==x2)&&(x2==x3))||((y1==y2)&&(y2==y3)))
+    if(((x12<PRECISION)&&(x23<PRECISION))||((y12<PRECISION)&&(y23<PRECISION))) {
         return 2; // 3 точки лежат на одной прямой
-    if(x1==x2)
+    }
+    if(x12<PRECISION)
     {
-        if(x2==x3)
+        if(x23<PRECISION) {
             return 2;
+        }
     }   
         else 
     {
-        if (y3==(((x3-x2)*(y1-y2))/(x1-x2)+y2)) 
+        double count = fabs(y3-(((x3-x2)*(y1-y2))/(x1-x2)+y2));
+        if(count<PRECISION) {
             return 2;
+        }
     }
-    if (x3==x2)
+    if(x23<PRECISION)
     {
-        if(y2==y3)
+        if(y23<PRECISION) {
             return 2;
+        }
     }
     return 0;
 }
 
-int isSectorCheck(int x1, int x2, int x3, int y1, int y2, int y3)
+int isSectorCheck(double x1, double x2, double x3, double y1, double y2, double y3)
 {
-    if((x1==x2)||(x2==x3)||(y1==y2))
+    double x12 = fabs(x1-x2);
+    double x23 = fabs(x2-x3);
+    double y12 = fabs(y1-y2);
+    if(x12<PRECISION) {
+        if(x3>x2)
+            return 1; // more
+        return 0; // less
+    }
+    if((x12<PRECISION)||(x23<PRECISION)||(y12<PRECISION))
     {
         if(y3>y2)
             return 1;
@@ -150,10 +149,52 @@ int isSectorCheck(int x1, int x2, int x3, int y1, int y2, int y3)
     }
 }
 
-
-int sectorPrint(int n) // Вывод номера сектора
+int lineCaseCalculation(double x1, double x2, double x3, double y1, double y2, double y3)
 {
-    printf("\nPoint is in the №%i%s", n, " sector.");
+    double x12=fabs(x1-x2);
+    if((x12<PRECISION)) {
+        if(y1>y2) {
+            if(x1<x3)
+                return 0; // left
+            return 1; // right
+        }
+    if(x1<x3)
+        return 1;
+    return 0;
+    }
+    double y13 = ((x3-x2)*(y1-y2))/(x1-x2)+y2;
+    if((x2-x1)>0) {
+        if(y3<y13)
+            return 1;
+        return 0;
+    }
+    if(y3<y13)
+         return 0;
+    return 1;
+}
+
+int triangleCaseCalculation(double x1, double x2, double x3, double x4, double y1, double y2, double y3, double y4)
+{
+    if(isSectorCheck(x1, x3, x4, y1, y3, y4)==1) {
+        if(isSectorCheck(x1, x2, x4, y1, y2, y4)==1)
+            return 1;
+        if(isSectorCheck(x2, x3, x4, y2, y3, y4)==1)
+            return 6;
+        return 5;
+    }
+    if(isSectorCheck(x1, x2, x4, y1, y2, y4)==1) {
+        if(isSectorCheck(x2, x3, x4, y2, y3, y4)==1)
+            return 2;
+        return 3;
+    }
+    if(isSectorCheck(x2, x3, x4, y2, y3, y4)==1)
+        return 7;
+    return 4;
+}
+
+int sectorPrint(int n)
+{
+    printf_s("\nPoint is in the №%i%s", n, " sector.\n");
 }
 // Сектора:
 // 1 - Угловой точки p1
