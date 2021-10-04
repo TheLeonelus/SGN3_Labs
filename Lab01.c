@@ -19,11 +19,9 @@ int triangleCaseCalculation(double x1, double x2, double x3, double x4, double y
 int functionLine();
 int functionTriangle();
 
-int n;
-
 int main(void)
 {
-    caseInput();
+    int n = caseInput();
     switch(n) {
         case 3: { // Line-case
             return functionLine();
@@ -37,7 +35,9 @@ int main(void)
 int caseInput()
 {
     printf_s("Input number of points (assuming that points 1(Top),2(Right) <and 3(Left)> are apexes of the lines [3/4]: ");
+    int n;
     scanf_s("%d", &n);
+    return n;
 }
 
 double pointInput(int number, int casetype)
@@ -202,7 +202,9 @@ int functionTriangle()
     }
     switch(isIncludeCheck(array[0][0], array[1][0], array[2][0], array[0][1], array[1][1], array[2][1])) {
         case 0: {
-            if((isIncludeCheck(array[0][0], array[1][0], array[3][0], array[0][1], array[1][1], array[3][1])==0)&&(isIncludeCheck(array[1][0], array[2][0], array[3][0], array[1][1], array[2][1], array[3][1])==0)&&(isIncludeCheck(array[0][0], array[2][0], array[3][0], array[0][1], array[2][1], array[3][1])==0)) {
+            if((isIncludeCheck(array[0][0], array[1][0], array[3][0], array[0][1], array[1][1], array[3][1])==0)
+            &&(isIncludeCheck(array[1][0], array[2][0], array[3][0], array[1][1], array[2][1], array[3][1])==0)
+            &&(isIncludeCheck(array[0][0], array[2][0], array[3][0], array[0][1], array[2][1], array[3][1])==0)) {
             return sectorPrint(triangleCaseCalculation(array[0][0], array[1][0], array[2][0], array[3][0], array[0][1], array[1][1], array[2][1], array[3][1]));
                 }
             return INCLUDEPRINT;
