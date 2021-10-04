@@ -3,13 +3,26 @@
 #include <math.h>
 
 void precisionInput();
+double factorialCalculation();
 
 double E;
 
 int main()
 {
     precisionInput();
-
+    int k = 0, i = 0;
+    double factorialN = 1, currentSum, pastSum;
+    while (k<1) {
+        i++;
+        factorialN *= factorialCalculation(i);
+        currentSum += factorialN;
+        if((currentSum-pastSum)<E)
+            k++;
+        else
+            pastSum = currentSum;
+    }
+    printf_s("Inverse factorial sum: %lf", currentSum);
+    printf_s("\nDecimal approximation for comparing: 1.718281828459");
     return EXIT_SUCCESS;
 }
 
@@ -21,6 +34,7 @@ void precisionInput()
 
 double factorialCalculation(int n)
 {
-    
-    double result = 1 / n;
+    double result = 1.0 / n;
+    return result;
 }
+
