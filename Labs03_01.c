@@ -5,11 +5,10 @@
 void precisionInput();
 double factorialCalculation();
 
-double E;
-
 int main()
 {
-    precisionInput();
+    double E;
+    precisionInput(&E);
     int k = 0, i = 0;
     double factorialN = 1, currentSum, pastSum;
     while (k<1) {
@@ -26,10 +25,10 @@ int main()
     return EXIT_SUCCESS;
 }
 
-void precisionInput()
+void precisionInput(double *E)
 {
     printf_s("\nInput precision of calculations: ");
-    scanf_s("%lf", &E);
+    scanf_s("%lf", &*E);
 }
 
 double factorialCalculation(int n)

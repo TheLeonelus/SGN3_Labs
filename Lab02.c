@@ -44,8 +44,7 @@ int main()
             printf_s(" | %3.3lf", expressionFunction(i));
         i++;
     } while (i<=b);
-    
-    
+    return EXIT_SUCCESS;
 }
 
 double expressionFunction(int x)

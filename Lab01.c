@@ -30,6 +30,7 @@ int main(void)
             return functionTriangle();
         }
     }
+    return EXIT_FAILURE;
 }
 
 int caseInput()
