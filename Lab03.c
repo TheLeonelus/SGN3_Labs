@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <math.h>   
 
-void integralBordersInput();
+void integralBordersInput(double *a, double *b);
 void precisionInput(double *E);
 void stepSize(int splitAmount, double a, double b, double *H);
 double xCalculation(int i, double a, double H);
@@ -11,18 +11,20 @@ double integralCalculation(int splitAmount, double a, double H);
 
 int main()
 {
-    double a, b, E, H;
+    double a, b;
     integralBordersInput(&a, &b);
+    double E;
     precisionInput(&E);
     int splitAmount = 2; // Количество участков разбиения
+    double H;
     stepSize(splitAmount, a, b, &H);
-    int k=0;
     double pastAreaValue, currentAreaValue;
     pastAreaValue = currentAreaValue = integralCalculation(splitAmount, a, H);
+    int k=0;
     while(k<1)
     {
         pastAreaValue = currentAreaValue;
-        splitAmount = 2*splitAmount; // Увеличение точности подсчётом
+        splitAmount = 2*splitAmount; // Увеличение точности подсчётов
         stepSize(splitAmount, a, b, &H);
         currentAreaValue = integralCalculation(splitAmount, a, H);
         if(E>(pastAreaValue-currentAreaValue))
@@ -45,7 +47,7 @@ void integralBordersInput(double *a, double *b)
         scanf_s("%lf", &*b);
     if (*a>*b)
         printf_s("%s", "Inappropriate input.");
-    else ++k;
+    else k++;
     }
 }
 
