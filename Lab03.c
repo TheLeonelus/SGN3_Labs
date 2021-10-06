@@ -3,33 +3,28 @@
 #include <math.h>   
 
 void integralBordersInput();
-void precisionInput();
-void stepSize(int splitAmount, double *a, double *b);
-double xCalculation(int i, double *a);
+void precisionInput(double *E);
+void stepSize(int splitAmount, double a, double b, double *H);
+double xCalculation(int i, double a, double H);
 double fxCalculation(double x);
-double integralCalculation(int splitAmount, double a);
-
-double H, E;
-int k;
+double integralCalculation(int splitAmount, double a, double H);
 
 int main()
 {
-    double a, b;
+    double a, b, E, H;
     integralBordersInput(&a, &b);
-    precisionInput();
+    precisionInput(&E);
     int splitAmount = 2; // Количество участков разбиения
-    stepSize(splitAmount, &a, &b);
-    k=0;
+    stepSize(splitAmount, a, b, &H);
+    int k=0;
     double pastAreaValue, currentAreaValue;
-    pastAreaValue = currentAreaValue = integralCalculation(splitAmount, a);
-    printf_s("");
+    pastAreaValue = currentAreaValue = integralCalculation(splitAmount, a, H);
     while(k<1)
     {
         pastAreaValue = currentAreaValue;
         splitAmount = 2*splitAmount; // Увеличение точности подсчётом
-        stepSize(splitAmount, &a, &b);
-        currentAreaValue = integralCalculation(splitAmount, a);
-        printf_s("");
+        stepSize(splitAmount, a, b, &H);
+        currentAreaValue = integralCalculation(splitAmount, a, H);
         if(E>(pastAreaValue-currentAreaValue))
         {
             k++;
@@ -54,20 +49,20 @@ void integralBordersInput(double *a, double *b)
     }
 }
 
-void precisionInput()
+void precisionInput(double *E)
 {
     printf_s("\nInput precision of calculations: ");
-    scanf_s("%lf", &E);
+    scanf_s("%lf", &*E);
 }
 
-void stepSize(int splitAmount, double *a, double *b)
+void stepSize(int splitAmount, double a, double b, double *H)
 {
-    H = (*b-*a)/(2*splitAmount); // Приращение функции
+    *H = (b-a)/(2*splitAmount); // Приращение функции
 }
 
-double xCalculation(int n, double *a)
+double xCalculation(int n, double a, double H)
 {
-    double result = *a+n*H; 
+    double result = a+n*H; 
     return result;
 }
 
@@ -77,13 +72,13 @@ double fxCalculation(double x)
     return result;
 }
 
-double integralCalculation(int splitAmount, double a)
+double integralCalculation(int splitAmount, double a, double H)
 {
     double array[2][(2*splitAmount)+1], firstSum, secondSum;
     firstSum = secondSum = 0;
     for(int i=0;i<=((2*splitAmount)+1);i++) // Заполнение xi и f(xi)
     {
-        array[0][i] = xCalculation(i, &a);
+        array[0][i] = xCalculation(i, a, H);
         array[1][i] = fxCalculation(array[0][i]);
     }
     for(int i=1;i<=(splitAmount);i++) // Вычисление суммы нечётных f(x)
