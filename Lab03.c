@@ -21,14 +21,12 @@ int main()
     double pastAreaValue, currentAreaValue;
     pastAreaValue = currentAreaValue = integralCalculation(splitAmount, a, H);
     int k=0;
-    while(k<1)
-    {
+    while(k<1) {
         pastAreaValue = currentAreaValue;
         splitAmount = 2*splitAmount; // Увеличение точности подсчётов
         stepSize(splitAmount, a, b, &H);
         currentAreaValue = integralCalculation(splitAmount, a, H);
-        if(E>(pastAreaValue-currentAreaValue))
-        {
+        if(E>(pastAreaValue-currentAreaValue)) {
             k++;
         }
     }
@@ -39,8 +37,7 @@ int main()
 void integralBordersInput(double *a, double *b)
 {
     int k=0;
-    while(k<1)
-    {
+    while(k<1) {
         printf_s("\nInput left border of the segment: ");
         scanf_s("%lf", &*a);
         printf_s("\nInput right border of the segment: ");
@@ -78,17 +75,14 @@ double integralCalculation(int splitAmount, double a, double H)
 {
     double array[2][(2*splitAmount)+1], firstSum, secondSum;
     firstSum = secondSum = 0;
-    for(int i=0;i<=((2*splitAmount)+1);i++) // Заполнение xi и f(xi)
-    {
+    for(int i=0;i<=((2*splitAmount)+1);i++) {// Заполнение xi и f(xi)
         array[0][i] = xCalculation(i, a, H);
         array[1][i] = fxCalculation(array[0][i]);
     }
-    for(int i=1;i<=(splitAmount);i++) // Вычисление суммы нечётных f(x)
-    {
+    for(int i=1;i<=(splitAmount);i++) {// Вычисление суммы нечётных f(x)
         firstSum = firstSum + array[1][2*i-1];
     }
-    for(int i=1;i<=(splitAmount-1);i++) // Вычисление суммы чётных f(x)
-    {
+    for(int i=1;i<=(splitAmount-1);i++) {// Вычисление суммы чётных f(x)
         secondSum = secondSum + array[1][2*i];
     }
     double result = (H/3)*(array[1][0]+4*firstSum+2*secondSum+array[1][2*splitAmount+1]); // Формула Симпсона

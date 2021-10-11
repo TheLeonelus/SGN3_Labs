@@ -21,7 +21,7 @@ int main()
             pastSum = currentSum;
     }
     printf_s("Inverse factorial sum: %lf", currentSum);
-    printf_s("\nDecimal approximation for comparing: 1.718281828459");
+    printf_s("\nDecimal approximation for comparision: 1.718281828459");
     return EXIT_SUCCESS;
 }
 

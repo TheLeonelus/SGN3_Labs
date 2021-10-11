@@ -4,29 +4,27 @@
 
 #define INAPPROPRIATEINPUT "\nInappropriate input.\n"
 
-void borderValuesInput(double *a, double *b);
-void xValuesOutput();
+void borderValuesInput(int *a, int *b);
+void xValuesOutput(int a, int b, int *ii);
 double expressionFunction(int x);
 
 int main()
 {
     double functionResult;
-    int a,b;
+    int a,b,i;
     borderValuesInput(&a, &b);
     printf_s("\nfor:");
-    xValuesOutput(a,b);
-    int i;
-    for(i=a; i<=b; ++i) {
+    xValuesOutput(a,b, &i);
+    for(i; i<=b; ++i) {
         if(i==0)
             printf_s(" |  NaN ");
         else
             printf_s(" | %3.3lf", expressionFunction(i));
     }
     printf_s("\n\nwhile:");
-    xValuesOutput(a,b);
+    xValuesOutput(a,b, &i);
     i = a;
-    while (i<=b)
-    {
+    while (i<=b) {
         if(i==0)
             printf_s(" |  NaN ");
         else
@@ -34,10 +32,8 @@ int main()
         i++;
     }
     printf_s("\n\ndo while:");
-    xValuesOutput(a,b);
-    i = a;
-    do
-    {
+    xValuesOutput(a,b, &i);
+    do {
         if(i==0)
             printf_s(" |  NaN ");
         else
@@ -53,21 +49,21 @@ double expressionFunction(int x)
     return result;
 }
 
-void xValuesOutput(double a, double b)
+void xValuesOutput(int a, int b, int*ii)
 {
     printf_s("\n  x  ");
     int i;
     for(i=a; i<=b; i++) {
-        printf(" | %3.d%s", i, "  ");
+        printf(" | %3.1d%s", i, "  ");
     }
     printf_s("\n f(x)");
+    *ii = a;
 }
 
-void borderValuesInput(double *a, double *b)
+void borderValuesInput(int *a, int *b)
 {
     int k;
-    do
-    {
+    do {
     printf_s("\nInput left border of values: ");
     scanf_s("%d", &*a);
     printf_s("\nInput right border of values: ");
