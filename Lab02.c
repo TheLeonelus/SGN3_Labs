@@ -5,41 +5,26 @@
 #define INAPPROPRIATEINPUT "\nInappropriate input.\n"
 
 void borderValuesInput(int *a, int *b);
-void xValuesOutput(int a, int b, int *ii);
+void xValuesOutput(int a, int b);
 double expressionFunction(int x);
+int exceptionCheck(int i);
+void forCycle(int b, int i);
+void whileCycle(int b, int i);
+void doWhileCycle(int b, int i);
 
 int main()
 {
     double functionResult;
-    int a,b,i;
+    int a,b;
     borderValuesInput(&a, &b);
     printf_s("\nfor:");
-    xValuesOutput(a,b, &i);
-    for(i; i<=b; ++i) {
-        if(i==0)
-            printf_s(" |  NaN ");
-        else
-            printf_s(" | %3.3lf", expressionFunction(i));
-    }
+    xValuesOutput(a, b);
+    forCycle(b, a);
     printf_s("\n\nwhile:");
-    xValuesOutput(a,b, &i);
-    i = a;
-    while (i<=b) {
-        if(i==0)
-            printf_s(" |  NaN ");
-        else
-            printf_s(" | %3.3lf", expressionFunction(i));
-        i++;
-    }
-    printf_s("\n\ndo while:");
-    xValuesOutput(a,b, &i);
-    do {
-        if(i==0)
-            printf_s(" |  NaN ");
-        else
-            printf_s(" | %3.3lf", expressionFunction(i));
-        i++;
-    } while (i<=b);
+    xValuesOutput(a, b);
+    whileCycle(b, a);
+    xValuesOutput(a, b);
+    doWhileCycle(b, a);
     return EXIT_SUCCESS;
 }
 
@@ -49,7 +34,7 @@ double expressionFunction(int x)
     return result;
 }
 
-void xValuesOutput(int a, int b, int*ii)
+void xValuesOutput(int a, int b)
 {
     printf_s("\n  x  ");
     int i;
@@ -57,7 +42,6 @@ void xValuesOutput(int a, int b, int*ii)
         printf(" | %3.1d%s", i, "  ");
     }
     printf_s("\n f(x)");
-    *ii = a;
 }
 
 void borderValuesInput(int *a, int *b)
@@ -73,4 +57,43 @@ void borderValuesInput(int *a, int *b)
     else k++;
     }
     while(k<1);
+}
+
+int exceptionCheck(int i)
+{
+    if(i<=0)
+        return EXIT_SUCCESS;
+    return EXIT_FAILURE;
+}
+
+void forCycle(int b, int i)
+{
+    for(i; i<=b; ++i) {
+        if(exceptionCheck==1)
+            printf_s(" |  NaN ");
+        else
+            printf_s(" | %3.3lf", expressionFunction(i));
+    }
+}
+
+void whileCycle(int b, int i)
+{
+    while (i<=b) {
+        if(exceptionCheck==1)
+            printf_s(" |  NaN ");
+        else
+            printf_s(" | %3.3lf", expressionFunction(i));
+        i++;
+    }
+}
+
+void doWhileCycle(int b, int i)
+{
+    do {
+        if(exceptionCheck==1)
+            printf_s(" |  NaN ");
+        else
+            printf_s(" | %3.3lf", expressionFunction(i));
+        i++;
+    } while (i<=b);
 }
