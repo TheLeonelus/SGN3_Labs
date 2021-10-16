@@ -5,7 +5,7 @@
 #define PRECISION 0.0000001
 
 void matrixInput(int* n, int* m);
-int** malloc_matrix(int n, int m, int** matrix);
+void malloc_matrix(int n, int m, int** matrix);
 void valuesInput(int n, int m, int** matrix);
 void valuesOutput(int n, int m, int** matrix);
 void matrixTransposition(int n, int m, int** matrix);
@@ -32,7 +32,7 @@ int main(void)
             }
         }
     }
-    //malloc_matrix(n, m, &*matrix);
+    //malloc_matrix(n, m, &*matrix); 
     valuesInput(n, m, &*matrix);
     printf_s("\nBefore: \n");
     valuesOutput(n, m, &*matrix);
@@ -50,7 +50,7 @@ void matrixInput(int* n, int* m)
 
 }
 
-int** malloc_matrix(int n, int m, int** matrix)
+void malloc_matrix(int n, int m, int** matrix)
 {
     matrix = malloc(sizeof(int*)*n);
     if(matrix!=NULL)
@@ -98,7 +98,6 @@ void valuesOutput(int n, int m, int** matrix)
 
 void matrixTransposition(int n, int m, int** matrix)
 {
-    int middleLine = (n-1) / 2;
     for(int i=0; i<(n-1); i++) {
         for(int j=0; (i+j)<(n-1); j++) {
             int bufferValue = *(*(matrix+i)+j);
