@@ -18,7 +18,8 @@ int main(void)
         printf_s("\nInput array elements: ");
     for(int i=0; i<size; i++) {
         printf_s("\ni%d%s", i, ": ");
-        scanf_s("%d", &array[i]);
+        scanf_s("%lf", &*(array+i));
+        printf_s("checK:%lf \n", *(array+i));
     }
     printf_s("\nAverage summary of elements: %.3lf", averageSummary(getLastZeroElement(array, size), getMaxValueElement(array, size, getLastZeroElement(array, size)), array));
     free(array);
@@ -42,22 +43,24 @@ int getLastZeroElement(double *array, int size)
 {
     int zeroElement;
     for (int i=0; i<size; i++) {
-        if(fabs(array[i])<PRECISION)
+        if(fabs(*(array+i))<PRECISION)
             zeroElement = i;
     }
+    printf_s("\n%i\n", zeroElement);
     return zeroElement;
 }
 
 int getMaxValueElement(double *array, int size, int zeroElement)
 {
-    double MaxElement = 0.0;
-    int MaxIndex = zeroElement + 1;
-    for (int i=zeroElement; i<size; i++) {
-        if(array[i]>MaxElement) {
-            MaxElement = array[i];
+    double MaxElement = *(array+zeroElement+1);
+    int MaxIndex = zeroElement;
+    for (int i=zeroElement+2; i<size; i++) {
+        if((*(array+i))>MaxElement) {
+            MaxElement = *(array+i);
             MaxIndex = i;
         }
     }
+    printf_s("\n%i\n", MaxIndex);
     return MaxIndex;
 }
 
@@ -65,7 +68,7 @@ double averageSummary(int leftBorderSummary, int rightBorderSummary, double *arr
 {
     double averageSummary = 0.0;
     for(int i=leftBorderSummary; i<rightBorderSummary; i++) // добавить "i<=rightBorderSummary", если макс. значение включено
-        averageSummary+=array[i];
+        averageSummary+=(*(array+i));
     if((rightBorderSummary-leftBorderSummary)>1)
         averageSummary = averageSummary / (rightBorderSummary - leftBorderSummary - 1);
     return averageSummary;
