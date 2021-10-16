@@ -73,18 +73,24 @@ double fxCalculation(double x)
 
 double integralCalculation(int splitAmount, double a, double H)
 {
-    double array[2][(2*splitAmount)+1], firstSum, secondSum;
+    double firstSum, secondSum;
+    double* arrayX;
+    double* arrayFx;
+    arrayX = malloc((2*splitAmount+1)*sizeof(double));
+    arrayFx = malloc((2*splitAmount+1)*sizeof(double));
     firstSum = secondSum = 0;
-    for(int i=0;i<=((2*splitAmount)+1);i++) {// Заполнение xi и f(xi)
-        array[0][i] = xCalculation(i, a, H);
-        array[1][i] = fxCalculation(array[0][i]);
+    for(int i=0; i<=((2*splitAmount)+1); i++) { // Заполнение x(i) и f(x(i))
+        *(arrayX+i) = xCalculation(i, a, H);
+        *(arrayFx+i) = fxCalculation(*(arrayX+i));
     }
-    for(int i=1;i<=(splitAmount);i++) {// Вычисление суммы нечётных f(x)
-        firstSum = firstSum + array[1][2*i-1];
+    for(int i=1; i<=splitAmount; i++) { // Вычисление суммы нечётных f(x)
+        firstSum += *(arrayFx+2*i-1);
     }
-    for(int i=1;i<=(splitAmount-1);i++) {// Вычисление суммы чётных f(x)
-        secondSum = secondSum + array[1][2*i];
+    for(int i=1; i<=(splitAmount-1); i++) { // Вычисление суммы чётных f(x)
+        secondSum += *(arrayFx+2*i);
     }
-    double result = (H/3)*(array[1][0]+4*firstSum+2*secondSum+array[1][2*splitAmount+1]); // Формула Симпсона
+    double result = (H/3)*(*arrayFx+4*firstSum+2*secondSum+*(arrayFx+2*splitAmount+1)); // Формула Симпсона
+    free(arrayX);
+    free(arrayFx);
     return result;
 }
