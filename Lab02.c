@@ -14,7 +14,6 @@ void doWhileCycle(int b, int i);
 
 int main()
 {
-    double functionResult;
     int a,b;
     borderValuesInput(&a, &b);
     printf_s("\nfor:");
