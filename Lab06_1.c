@@ -73,15 +73,32 @@ void malloc_matrix(int n, int m, int **matrix)
 void valuesInput(int n, int m, int **matrix)
 {
     printf_s("\nInput array elements...");
-    int element = 0;
-    for (int i = 0; i < n; i++) {
-        element++;
-        for (int j = 0; j < m; j++) {
-        //  printf_s("\nArray[%i%s%i%s", i, "][", j, "]: "); // Для самостоятельного заполнения
-        //  scanf_s("%i", &*(*(matrix + i) + j));
-            *(*(matrix + i) + j) = element; // Чтобы самостоятельно не заполнять
-        //  printf_s("\nArray[%i%s%i%s%o", i, "][", j, "]: ", *(*(matrix + i) + j));
+    char caseVariant;
+    int k = 0;
+    while(k < 1) {
+    printf_s("\nDo you would like to fullfill array yourself? [Y/N]: ");
+    scanf_s("%s", &caseVariant);
+    if (caseVariant == 'N')
+        k = 1;
+    if (caseVariant == 'Y')
+        k = 2;
+    }
+    if(k == 1) {
+        int element = 0;
+        for (int i = 0; i < n; i++) {
             element++;
+            for (int j = 0; j < m; j++) {
+                *(*(matrix + i) + j) = element;
+                element++;
+            }
+        }
+    }
+    else {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                printf_s("\nArray[%i%s%i%s", i, "][", j, "]: "); // Для самостоятельного заполнения
+                scanf_s("%i", &*(*(matrix + i) + j));
+            }
         }
     }
 }
