@@ -1,8 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
-
-#define PRECISION 0.0000000001
 
 void matrixInput(int *n, int *m);
 void malloc_matrix(int n, int m, int ***matrix);
@@ -22,6 +19,8 @@ int main(void)
     valuesOutput(n, m, matrix);
     maxToElementSummary(n, m, matrix);
     matrixTransposition(n, m, matrix);
+    free(matrix);
+    return EXIT_SUCCESS;
 }
 
 void matrixInput(int *n, int *m)
@@ -83,7 +82,7 @@ void valuesInput(int n, int m, int **matrix)
     else {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                printf_s("\nArray[%i%s%i%s", i, "][", j, "]: "); // Для самостоятельного заполнения
+                printf_s("\nArray[%i%s%i%s", i, "][", j, "]: ");
                 scanf_s("%i", &*(*(matrix + i) + j));
             }
         }
