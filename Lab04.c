@@ -5,6 +5,7 @@
 #define PRECISION 0.00000001
 
 int inputSize(int *size);
+int arrayFullfill(int size, double *array);
 int getLastZeroElement(double *array, int size);
 int getMaxValueElement(double *array, int size, int zeroElement);
 double averageSummary(int leftBorderSummary, int rightBorderSummary, double *array);
@@ -12,16 +13,11 @@ double averageSummary(int leftBorderSummary, int rightBorderSummary, double *arr
 int main(void)
 {
     int size;
-    double* array;
     inputSize(&size);
-    array = malloc(size*sizeof(double));
-        printf_s("\nInput array elements: ");
-    for(int i=0; i<size; i++) {
-        printf_s("\ni%d%s", i, ": ");
-        scanf_s("%lf", &*(array+i));
-        printf_s("checK:%lf \n", *(array+i));
-    }
-    printf_s("\nAverage summary of elements: %.3lf", averageSummary(getLastZeroElement(array, size), getMaxValueElement(array, size, getLastZeroElement(array, size)), array));
+    double* array = malloc(size*sizeof(double));
+    arrayFullfill(size, array);
+    int zeroElement = getLastZeroElement(array, size);
+    printf_s("\nAverage summary of elements: %.3lf", averageSummary(zeroElement, getMaxValueElement(array, size, zeroElement), array));
     free(array);
     return EXIT_SUCCESS;
 }
@@ -39,6 +35,15 @@ int inputSize(int *size)
     }
 }
 
+int arrayFullfill(int size, double *array)
+{
+    printf_s("\nInput array elements: ");
+    for(int i=0; i<size; i++) {
+        printf_s("\ni%d%s", i, ": ");
+        scanf_s("%lf", &*(array+i));
+    }
+}
+
 int getLastZeroElement(double *array, int size)
 {
     int zeroElement;
@@ -46,7 +51,6 @@ int getLastZeroElement(double *array, int size)
         if(fabs(*(array+i))<PRECISION)
             zeroElement = i;
     }
-    printf_s("\n%i\n", zeroElement);
     return zeroElement;
 }
 
@@ -60,7 +64,6 @@ int getMaxValueElement(double *array, int size, int zeroElement)
             MaxIndex = i;
         }
     }
-    printf_s("\n%i\n", MaxIndex);
     return MaxIndex;
 }
 
