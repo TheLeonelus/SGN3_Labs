@@ -5,7 +5,7 @@
 #define PRECISION 0.0000000001
 
 void matrixInput(int *n, int *m);
-void malloc_matrix(int n, int m, int **matrix);
+void malloc_matrix(int n, int m, int ***matrix);
 void valuesInput(int n, int m, int **matrix);
 void valuesOutput(int n, int m, int **matrix);
 void matrixTransposition(int n, int m, int **matrix);
@@ -13,26 +13,13 @@ void maxToElementSummary(int n, int m, int **matrix);
 
 int main(void)
 {
-    int n, m; // n - строки; m - столбцы
+    int n, m;
     matrixInput(&n, &m);
-    int **matrix = malloc(sizeof(int*)*n);
-    if(matrix!=NULL) {
-        for(int i=0; i<n; i++) {
-            *(matrix+i) = malloc(sizeof(int)*m);
-            if(*(matrix+i)==NULL) {
-                for(i--; i>=0; i--) {
-                    free(matrix+i);
-                }
-                free(matrix);
-                *matrix=NULL;
-                break;
-            }
-        }
-    }
-    //malloc_matrix(n, m, &*matrix);
-    valuesInput(n, m, &*matrix);
+    int **matrix;
+    malloc_matrix(n, m, &matrix);
+    valuesInput(n, m, matrix);
     printf_s("\n\nOriginal: \n");
-    valuesOutput(n, m, &*matrix);
+    valuesOutput(n, m, matrix);
     maxToElementSummary(n, m, matrix);
     matrixTransposition(n, m, matrix);
 }
@@ -52,18 +39,18 @@ void matrixInput(int *n, int *m)
     }
 }
 
-void malloc_matrix(int n, int m, int **matrix)
+void malloc_matrix(int n, int m, int ***matrix)
 {
-    matrix = malloc(sizeof(int *) * n);
-    if (matrix != NULL) {
+    *matrix = malloc(sizeof(int *) * n);
+    if (*matrix != NULL) {
         for (int i = 0; i < n; i++) {
-            *(matrix + i) = malloc(sizeof(int) * m);
-            if (*(matrix + i) == NULL) {
+            *(*matrix + i) = malloc(sizeof(int) * m);
+            if (*(*matrix + i) == NULL) {
                 for (i--; i >= 0; i--) {
-                    free(matrix + i);
+                    free(*matrix + i);
                 }
-                free(matrix);
-                *matrix = NULL;
+                free(*matrix);
+                **matrix = NULL;
                 break;
             }
         }
