@@ -15,6 +15,10 @@ int main(void)
     int size;
     inputSize(&size);
     double* array = malloc(size*sizeof(double));
+    if(array == NULL) {
+        free(array);
+        return EXIT_FAILURE;
+    }
     arrayFullfill(size, array);
     int zeroElement = getLastZeroElement(array, size);
     printf_s("\nAverage summary of elements: %.3lf", averageSummary(zeroElement, getMaxValueElement(array, size, zeroElement), array));
