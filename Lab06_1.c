@@ -7,6 +7,7 @@ void valuesInput(int n, int m, int **matrix);
 void valuesOutput(int n, int m, int **matrix);
 void matrixTransposition(int n, int m, int **matrix);
 void maxToElementSummary(int n, int m, int **matrix);
+void freeMatrix(int n, int***matrix);
 
 int main(void)
 {
@@ -19,7 +20,7 @@ int main(void)
     valuesOutput(n, m, matrix);
     maxToElementSummary(n, m, matrix);
     matrixTransposition(n, m, matrix);
-    free(matrix);
+    freeMatrix(n, &matrix);
     return EXIT_SUCCESS;
 }
 
@@ -91,7 +92,7 @@ void valuesInput(int n, int m, int **matrix)
 
 void valuesOutput(int n, int m, int **matrix)
 {
-    printf_s("m | n ");
+    printf_s("n | m ");
     for (int i = 0; i < m; i++) {
         printf_s(" %1.1i%s", i, "     ");
     }
@@ -142,6 +143,13 @@ void maxToElementSummary(int n, int m, int **matrix)
     printf_s("\n\nMaximum value replaced with element summary:\n");
     valuesOutput(n, m, matrix);
     *(*(matrix + Line) + Column) = bufferValue;
+}
+
+void freeMatrix(int n, int***matrix)
+{
+    for (int i = 0; i < n; i++)
+        free(*(*matrix + i));
+    free(*matrix);
 }
 
 //6.1. Вводится матрица. Память выделять динамически. Транспонировать ее относительно побочной диагонали и вывести на экран.
