@@ -3,15 +3,20 @@
 #include <time.h>
 #include <windows.h>
 
+#define NUMBERTYPE 10
+#define DIGITSIZE 10
+
 void inputSize(int *size);
 int arrayMalloc(int **array, int size);
 void arrayFullfill(int *array, int size);
 void arrayOutput(int *array, int size);
-void radixSortLSD(int *array, int size); // Radix sort | Least Significant Digit version
+void radixSortLSD(int *array, int size); // Radix sort | Least Significant DIGITSIZEit version
 int countSort(int *array, int size, int exp); // Counting sort
 void countPositiveNegative(int *array, int *pCount, int *nCount, int size);
 void sideArraySortPos(int *array, int *sideArray, int size, int sideSize);
 void sideArraySortNeg(int *array, int *sideArray, int size, int sideSize);
+void arrayAssemble(int *array, int *pArray, int *nArray, int pCount, int nCount, int size);
+
 
 int main(void)
 {
@@ -20,12 +25,12 @@ int main(void)
     if(arrayMalloc(&array, size)) // Memory allocate for main array
         return EXIT_FAILURE;
     arrayFullfill(array, size); // Fullfilling main array
-    printf_s("\nOriginal:");
+    printf_s("\nOriginal array:");
     arrayOutput(array, size);
-    LARGE_INTEGER performanceCounter;
-    QueryPerformanceFrequency(&performanceCounter);
-    LARGE_INTEGER performanceCounterStart;
-    QueryPerformanceCounter(&performanceCounterStart);
+    //LARGE_INTEGER performanceCounter;
+    //QueryPerformanceFrequency(&performanceCounter);
+    //LARGE_INTEGER performanceCounterStart;
+    //QueryPerformanceCounter(&performanceCounterStart);
     countPositiveNegative(array, &pCount, &nCount, size);
     if(arrayMalloc(&pArray, pCount) == 1)
         return EXIT_FAILURE;
@@ -33,11 +38,9 @@ int main(void)
         return EXIT_FAILURE;
     sideArraySortPos(array, pArray, size, pCount);
     sideArraySortNeg(array, nArray, size, nCount);
-    for (int i = 0; i < pCount; *(array + i) = *(pArray + i), i++);
-    for (int i = pCount; i < pCount + nCount; *(array + i) = (-1) * *(nArray + i - pCount), i++);
-    for (int i = pCount + nCount; i < size; *(array + i) = 0, i++);
-    LARGE_INTEGER performanceCounterEnd;
-    QueryPerformanceFrequency(&performanceCounterEnd);
+    arrayAssemble(array, pArray, nArray, pCount, nCount, size);
+    //LARGE_INTEGER performanceCounterEnd;
+    //QueryPerformanceFrequency(&performanceCounterEnd);
     // Конвертировать LARGE_INTEGER в double*
     //double timeElapsed = (double*)(performanceCounterEnd) - (double*)(performanceCounterEnd);
     //printf_s("Time elapsed: %lf\n", timeElapsed);
@@ -112,7 +115,7 @@ int getMaximumValue(int *array, int size)
 void radixSortLSD(int *array, int size)
 {
     int maximumElement = getMaximumValue(array, size);
-    for (int exp = 1; maximumElement / exp > 0; exp *= 10) {
+    for (int exp = 1; maximumElement / exp > 0; exp *= DIGITSIZE) {
         countSort(array, size, exp);
     }
 }
@@ -122,16 +125,16 @@ int countSort(int *array, int size, int exp)
     int *arrayTemp;
     int *count;
     arrayMalloc(&arrayTemp, size);
-    arrayMalloc(&count, 10);
-    for (int i = 0; i < 10; i++)
+    arrayMalloc(&count, NUMBERTYPE);
+    for (int i = 0; i < NUMBERTYPE; i++)
 		*(count + i) = 0;
 	for (int i = 0; i < size; i++)
-		*(count + ((*(array+i) / exp) % 10)) += 1;
-	for (int i = 1; i < 10; i++)
+		*(count + ((*(array+i) / exp) % DIGITSIZE)) += 1;
+	for (int i = 1; i < NUMBERTYPE; i++)
 		*(count+i) += *(count + i - 1);
 	for (int i = size - 1; i >= 0; i--) {
-		*(arrayTemp + *(count + ((*(array+i) / exp) % 10)) - 1) = *(array+i);
-		*(count + ((*(array+i) / exp) % 10)) -= 1;
+		*(arrayTemp + *(count + ((*(array+i) / exp) % DIGITSIZE)) - 1) = *(array+i);
+		*(count + ((*(array+i) / exp) % DIGITSIZE)) -= 1;
 	}
 	for (int i = 0; i < size; i++)
 		*(array+i) = *(arrayTemp + i);
@@ -184,6 +187,16 @@ void sideArraySortNeg(int *array, int *sideArray, int size, int sideSize)
         }
     }
     radixSortLSD(sideArray, sideSize);
+}
+
+void arrayAssemble(int *array, int *pArray, int *nArray, int pCount, int nCount, int size)
+{
+    for (int i = 0; i < pCount; i++)
+        *(array + i) = *(pArray + i);
+    for (int i = pCount; i < pCount + nCount; i++)
+        *(array + i) = (-1) * *(nArray + i - pCount);
+    for (int i = pCount + nCount; i < size; i++)
+        *(array + i) = 0;
 }
 // Пользователь вводит размер массива и значения его элементов с клавиатуры. Память под массив выделяется динамически.
 // Необходимо сгруппировать и отсортировать массив следующим образом:
