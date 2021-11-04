@@ -41,10 +41,10 @@ void matrixInput(int *n, int *m)
 
 void malloc_matrix(int n, int m, int ***matrix)
 {
-    *matrix = malloc(sizeof(int *) * n);
+    *matrix = (int**) malloc(sizeof(int *) * n);
     if (*matrix != NULL) {
         for (int i = 0; i < n; i++) {
-            *(*matrix + i) = malloc(sizeof(int) * m);
+            *(*matrix + i) = (int*) malloc(sizeof(int) * m);
             if (*(*matrix + i) == NULL) {
                 for (i--; i >= 0; i--) {
                     free(*matrix + i);
