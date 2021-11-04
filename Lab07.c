@@ -14,7 +14,7 @@ int getMaximumValue(int *array, int n);
 int arrayMalloc(int **array, int n);
 void radixSortLSD(int *array, int n);
 int countSort(int *array, int n, int exp);
-void arrayAssembly(int *array, int **matrix, int n);
+void matrixAssembly(int *array, int **matrix, int n);
 
 int main(void)
 {
@@ -29,14 +29,10 @@ int main(void)
     for(int i = 0, k = 0; i < n; i++) {
         for(int j = 0; j < n; j++, k++) {
             *(bufferArray + n*n - 1 - k) = *(*(matrix + i) + j);
-            //printf_s("  %i", *(bufferArray + k));
         }
     }
     radixSortLSD(bufferArray, n);
-    printf_s("\nArray:\n");
-    for (int i = 0; i < n*n; i++)
-        printf_s("  %i", *(bufferArray + i));
-    arrayAssembly(bufferArray, matrix, n);
+    matrixAssembly(bufferArray, matrix, n);
     printf_s("\n\nFinal: \n");
     valuesOutput(n, matrix);
     free(bufferArray);
@@ -128,7 +124,6 @@ int arrayMalloc(int **array, int n)
 {
     *array = (int*) malloc(n*sizeof(int));
     if (*array == NULL) {
-        free(*array);
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
@@ -160,13 +155,10 @@ int countSort(int *array, int n, int exp)
     count = (int*) calloc(NUMBERTYPE, sizeof(int));
 	for (int i = 0; i < n*n; i++)
             *(count + ((*(array+i) / exp) % DIGITMOVE)) += 1;
-    //printf_s("\n");
 	for (int i = 1; i < NUMBERTYPE; i++) {
 		*(count+i) += *(count + i - 1);
-    //    printf_s("  %i", *(count+i));
     }
 	for (int i = n*n - 1; i >= 0; i--) {
-    //    printf_s("   %i", *(count + ((*(array+i) / exp) % DIGITMOVE)) - 1);
 		*(tempArray + *(count + ((*(array+i) / exp) % DIGITMOVE)) - 1) = *(array+i);
 		*(count + ((*(array+i) / exp) % DIGITMOVE)) -= 1;
 	}
@@ -178,7 +170,7 @@ int countSort(int *array, int n, int exp)
     return EXIT_SUCCESS;
 }
 
-void arrayAssembly(int *array, int **matrix, int n)
+void matrixAssembly(int *array, int **matrix, int n)
 {
     int center = (n - 1) / 2;
     int check = 0;
