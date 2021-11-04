@@ -4,8 +4,8 @@
 
 #define PRECISION 0.00000001
 
-int inputSize(int *size);
-int arrayFullfill(int size, double *array);
+void inputSize(int *size);
+void arrayFullfill(int size, double *array);
 int getLastZeroElement(double *array, int size);
 int getMaxValueElement(double *array, int size, int zeroElement);
 double averageSummary(int leftBorderSummary, int rightBorderSummary, double *array);
@@ -14,7 +14,7 @@ int main(void)
 {
     int size;
     inputSize(&size);
-    double* array = malloc(size*sizeof(double));
+    double* array = (double*) malloc(size*sizeof(double));
     if(array == NULL) {
         free(array);
         return EXIT_FAILURE;
@@ -26,7 +26,7 @@ int main(void)
     return EXIT_SUCCESS;
 }
 
-int inputSize(int *size)
+void inputSize(int *size)
 {
     int k = 0;
     while(k<1) {
@@ -39,7 +39,7 @@ int inputSize(int *size)
     }
 }
 
-int arrayFullfill(int size, double *array)
+void arrayFullfill(int size, double *array)
 {
     printf_s("\nInput array elements: ");
     for(int i=0; i<size; i++) {
