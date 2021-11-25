@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
-#include <ctype.h>
 #include "customstrings.h"
 
 int inputSize();
+char* removespaces(char *s);
 
 int main()
 {
@@ -19,13 +18,43 @@ int main()
         c = getchar();
         a = c;
     }
-    printf_s("\n\nOriginal string: %s", string);
-    removespaces(string);
-    printf_s("\nString with deleted spaces: %s\n", string);
+    int len = strlen(string);
+    *(string + length) = '\0';
+    len = strlen(string);
+    printf_s("\n\nOriginal string: \"%s\"", string);
+    char* result = removespaces(string);
+    printf_s("\nString with deleted spaces: \"%s\"\n", result);
+    free(string);
+    free(result);
     return EXIT_SUCCESS;
+}
+
+char* removespaces(char *s)
+{
+    char *p;
+    while (*s == ' ')
+        strcpy(s, s + 1);
+    int len = strlen(s);
+    while (*(s + len - 2) == ' ') {
+        *(s + len - 1) = '\0';
+        len = strlen(s);
+        if(*(s + len - 2) != ' ')
+            *(s + len - 1) = '\0';
+    }
+    len = strlen(s);
+    int i = 0, j = 0;
+    char* result = (char*) malloc((len+1)*sizeof(char));
+    for (; i < len; i++) {
+        if (*(s + i) == ' ') {
+            if (*(s + i + 1) == ' ') continue;
+        }
+        *(result + j) = *(s + i);
+        j++;
+    }
+    j++;
+    *(result + j) = '\0';
+    return result;
 }
 // No problem have been
 // Условие Л.р.№8
 // 8.1. Вводится строка. Удалить все лишние пробелы.
-// 8.2. Задается массив строк. Каждая строка включает в себя Фамилию Имя Отчество.
-// Задается две строки (суффиксы) (например, "ov" "idze" или "chuk" "ko") suf1 и suf2. Заменяем все вхождения suf1 в фамилии на suf2.
