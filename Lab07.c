@@ -10,8 +10,9 @@ void matrixInput(int *n);
 void malloc_matrix(int n, int ***matrix);
 void valuesInput(int n, int **matrix);
 void valuesOutput(int n, int **matrix);
-int getMaximumValue(int *array, int n);
 int arrayMalloc(int **array, int n);
+void freeMatrix(int n, int ***matrix);
+int getMaximumValue(int *array, int n);
 void radixSortLSD(int *array, int n);
 int countSort(int *array, int n, int exp);
 void matrixAssembly(int *array, int **matrix, int n);
@@ -26,6 +27,7 @@ int main(void)
     printf_s("\n\nOriginal: \n");
     valuesOutput(n, matrix);
     printf_s("\n");
+    // Перевод значений матрицы в одномерный массив, начиная с конца
     for(int i = 0, k = 0; i < n; i++) {
         for(int j = 0; j < n; j++, k++) {
             *(bufferArray + n*n - 1 - k) = *(*(matrix + i) + j);
@@ -35,15 +37,17 @@ int main(void)
     matrixAssembly(bufferArray, matrix, n);
     printf_s("\n\nFinal: \n");
     valuesOutput(n, matrix);
+    freeMatrix(n, matrix);
     free(bufferArray);
     return EXIT_SUCCESS;
 }
 
-void matrixInput(int *n) 
+// Ввод размера матрицы
+void matrixInput(int *n)
 {
     int k = 0;
     while (k < 1) {
-        printf_s("\nInput amount of lines: ");
+        printf_s("\nInput odd amount of lines: ");
         scanf_s("%i", &*n);
         if ((*n <= 0)||((*n % 2) == 0 ))
             printf_s("\nInappropriate Input! Please try again.");
@@ -52,6 +56,7 @@ void matrixInput(int *n)
     }
 }
 
+// Аллоцирование памяти для матрицы
 void malloc_matrix(int n, int ***matrix)
 {
     *matrix = (int**) malloc(sizeof(int *) * n);
@@ -70,13 +75,14 @@ void malloc_matrix(int n, int ***matrix)
     }
 }
 
+// Ввод значений матрицы
 void valuesInput(int n, int **matrix)
 {
     printf_s("\nInput array elements...");
     char caseVariant;
     int k = 0;
     while(k < 1) {
-    printf_s("\nDo you would like to fullfill array yourself? [Y/N]: ");
+    printf_s("\nWould like to fullfill array yourself? [Y/N]: ");
     scanf_s("%s", &caseVariant);
     if (caseVariant == 'N')
         k = 1;
@@ -102,6 +108,7 @@ void valuesInput(int n, int **matrix)
     }
 }
 
+// Вывод значений матрицы в форме таблицы
 void valuesOutput(int n, int **matrix)
 {
     printf_s("n | m ");
@@ -120,6 +127,7 @@ void valuesOutput(int n, int **matrix)
     }
 }
 
+// Аллоцирование памяти для одномерного массива
 int arrayMalloc(int **array, int n)
 {
     *array = (int*) malloc(n*sizeof(int));
@@ -129,6 +137,15 @@ int arrayMalloc(int **array, int n)
     return EXIT_SUCCESS;
 }
 
+// Освобождение памяти матрицы
+void freeMatrix(int n, int***matrix)
+{
+    for (int i = 0; i < n; i++)
+        free(*(*matrix + i));
+    free(*matrix);
+}
+
+// Нахождение максимального значения одномерного массива
 int getMaximumValue(int *array, int n)
 {
     int maxValue = *array;
@@ -139,6 +156,7 @@ int getMaximumValue(int *array, int n)
     return maxValue;
 }
 
+// Сортировка методом поразрядной сортировки от наименее значимого разряда
 void radixSortLSD(int *array, int n)
 {
     int maximumElement = getMaximumValue(array, n);
@@ -147,6 +165,7 @@ void radixSortLSD(int *array, int n)
     }
 }
 
+// Сортировка подсчётом
 int countSort(int *array, int n, int exp)
 {
     int *tempArray, *count;
@@ -170,6 +189,7 @@ int countSort(int *array, int n, int exp)
     return EXIT_SUCCESS;
 }
 
+// Перевод отсортированного одномерного массива в двумерный массив змейкой из центра
 void matrixAssembly(int *array, int **matrix, int n)
 {
     int center = (n - 1) / 2;
