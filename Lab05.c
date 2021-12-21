@@ -10,7 +10,7 @@ void inputSize(int *size);
 int arrayMalloc(int **array, int size);
 void arrayFullfill(int *array, int size);
 void arrayOutput(int *array, int size);
-void radixSortLSD(int *array, int size); // Radix sort | Least Significant DIGITSIZEit version
+void radixSortLSD(int *array, int size); // Radix sort | Least Significant digit version
 int countSort(int *array, int size, int exp); // Counting sort
 void countPositiveNegative(int *array, int *pCount, int *nCount, int size);
 void sideArraySortPos(int *array, int *sideArray, int size, int sideSize);
@@ -27,10 +27,6 @@ int main(void)
     arrayFullfill(array, size); // Fullfilling main array
     printf_s("\nOriginal array:");
     arrayOutput(array, size);
-    //LARGE_INTEGER performanceCounter;
-    //QueryPerformanceFrequency(&performanceCounter);
-    //LARGE_INTEGER performanceCounterStart;
-    //QueryPerformanceCounter(&performanceCounterStart);
     countPositiveNegative(array, &pCount, &nCount, size);
     if(arrayMalloc(&pArray, pCount) == 1)
         return EXIT_FAILURE;
@@ -39,11 +35,6 @@ int main(void)
     sideArraySortPos(array, pArray, size, pCount);
     sideArraySortNeg(array, nArray, size, nCount);
     arrayAssemble(array, pArray, nArray, pCount, nCount, size);
-    //LARGE_INTEGER performanceCounterEnd;
-    //QueryPerformanceFrequency(&performanceCounterEnd);
-    // Конвертировать LARGE_INTEGER в double*
-    //double timeElapsed = (double*)(performanceCounterEnd) - (double*)(performanceCounterEnd);
-    //printf_s("Time elapsed: %lf\n", timeElapsed);
     printf_s("\nFinal array:");
     arrayOutput(array, size);
     free(pArray);
