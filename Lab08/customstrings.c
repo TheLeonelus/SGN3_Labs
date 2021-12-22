@@ -75,3 +75,20 @@ char *strstr(char *X, char *Y)
 
     return NULL;
 }
+
+// Функция заполнения строки
+int arrayFullfill(char* string)
+{
+    char c = getchar();
+    int length = 1, a = c;
+    while (a != 10) { // Проверка на символ LF
+        *(string + length - 1) = c;
+        length++;
+        if(realloc(string, length*sizeof(char)) == NULL)
+            return EXIT_FAILURE;
+        c = getchar();
+        a = c;
+    }
+    *(string + length - 1) = '\0';
+    return EXIT_SUCCESS;
+}

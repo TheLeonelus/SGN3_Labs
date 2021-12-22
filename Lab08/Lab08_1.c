@@ -1,14 +1,11 @@
-#ifndef _CUSTOMSTRINGS_H
-#define _CUSTOMSTRINGS_H
 #include "customstrings.h"
-#endif
 
 #include <stdio.h>
 #include <crtdbg.h>
 #include <stdlib.h>
 
 char* removespaces(char *s);
-void arrayFullfill(char* string);
+int arrayFullfill(char* string);
 
 int main()
 {
@@ -17,21 +14,15 @@ int main()
     return EXIT_FAILURE;
     printf_s("\nWrite the string: ");
     char c = getchar();
-    int length = 1, a = c;
-    while (a != 10) { // Проверка на символ LF
-        *(string + length - 1) = c;
-        length++;
-        string = (char*) realloc(string, length*sizeof(char));
-        c = getchar();
-        a = c;
-    }
-    *(string + length) = '\0';
+    if(arrayFullfill(string))
+        return EXIT_FAILURE;
     printf_s("\n\nOriginal string: \"%s\"", string);
     char* result = removespaces(string);
     if(result == NULL)
         return EXIT_FAILURE;
     printf_s("\nString with deleted spaces: \"%s\"\n", result);
     free(string);
+    free(result);
     _CrtDumpMemoryLeaks();
     return EXIT_SUCCESS;
 }
@@ -64,21 +55,6 @@ char* removespaces(char *s)
     j++;
     *(result + j) = '\0';
     return result;
-}
-
-// Функция заполнения строки
-void arrayFullfill(char* string)
-{
-    char c = getchar();
-    int length = 1, a = c;
-    while (a != 10) { // Проверка на символ LF
-        *(string + length - 1) = c;
-        length++;
-        realloc(string, length*sizeof(char));
-        c = getchar();
-        a = c;
-    }
-    *(string + length) = '\0';
 }
 // No problem have been
 // Условие Л.р.№8

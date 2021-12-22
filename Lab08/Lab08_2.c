@@ -1,7 +1,4 @@
-#ifndef _CUSTOMSTRINGS_H
-#define _CUSTOMSTRINGS_H
 #include "customstrings.h"
-#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,7 +8,7 @@
 int inputAmount();
 int stringsFullfill(int amount, char ***arrayStrings);
 void stringsReplaceSuffixes(int amount, char **arrayStrings, char **arraySuffixes);
-void freeArray(int n, char ***matrix);
+void freeArray(int n, char **matrix);
 
 int main()
 {
@@ -26,10 +23,11 @@ int main()
     char **arraySuffixes = (char **) malloc(sizeof(char *) * SUFFIX_AMOUNT);
     if (arraySuffixes == NULL)
         return EXIT_FAILURE;
-    stringsFullfill(SUFFIX_AMOUNT, &arraySuffixes);
+    if(stringsFullfill(SUFFIX_AMOUNT, &arraySuffixes))
+        return EXIT_FAILURE;
     stringsReplaceSuffixes(amount, arrayStrings, arraySuffixes);
-    freeArray(amount, &arrayStrings);
-    freeArray(SUFFIX_AMOUNT, &arraySuffixes);
+    freeArray(amount, arrayStrings);
+    freeArray(SUFFIX_AMOUNT, arraySuffixes);
     return EXIT_SUCCESS;
 }
 
@@ -79,16 +77,8 @@ int stringsFullfill(int amount, char ***array)
         *(*array + i) = (char *) malloc(sizeof(char)*length);
         if(*(*array +i) == NULL)
             return EXIT_FAILURE;
-        char c = getchar();
-        int a = c;
-        while (a != 10) { // Проверка на символ LF
-            *(*(*array + i) + length - 1) = c;
-            length++;
-            *(*array + i) = (char *) realloc(*(*array + i), length);
-            c = getchar();
-            a = c;
-        }
-        *(*(*array + i) + length - 1) = '\0';
+        if(arrayFullfill(*(array + i)))
+            return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
 }
@@ -104,41 +94,15 @@ void stringsReplaceSuffixes(int amount, char **arrayStrings, char **arraySuffixe
             if(entry==NULL)
                 break;
             int position = entry - *(arrayStrings + i);
-            strcpy(*(arrayStrings + i) + position, *(arrayStrings + i) + strSufLength);
+            strcpy(*(arrayStrings + i) + position, *(arrayStrings + i) + position + strSufLength);
             strins(*(arrayStrings + i) + position, *(arraySuffixes + 1));
         }
         printf_s("\n Modified string: \"%s\"\n", *(arrayStrings + i));
     }
 }
 
-// Очищение памяти двумерного массива
-void freeArray(int n, char ***matrix)
-{
-    for (int i = 0; i < n; i++)
-        free(*(*matrix + i));
-    free(*matrix);
-}
 
 /*
 8.2. Задается массив строк. Каждая строка включает в себя Фамилию Имя Отчество.
 Задается две строки (суффиксы) (например, "ov" "idze" или "chuk" "ko") suf1 и suf2. Заменяем все вхождения suf1 в фамилии на suf2.
-
-// Функция выделения памяти | Не используется
-void malloc_array(int n, char ***strArray)
-{
-    *strArray = (char **)malloc(sizeof(char *) * (n+1));
-    if (*strArray != NULL) {
-        for (int i = 0; i < n; i++) {
-            *(*strArray + i) = (char *)malloc(sizeof(char) * (n+1));
-            if (*(*strArray + i) == NULL) {
-                for (i--; i >= 0; i--) {
-                    free(*strArray + i);
-                }
-                free(*strArray);
-                **strArray = NULL;
-                break;
-            }
-        }
-    }
-}
 */
