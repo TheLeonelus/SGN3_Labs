@@ -77,7 +77,7 @@ int stringsFullfill(int amount, char ***array)
         *(*array + i) = (char *) malloc(sizeof(char)*length);
         if(*(*array +i) == NULL)
             return EXIT_FAILURE;
-        if(arrayFullfill(*(array + i)))
+        if(arrayFullfill(*(*array + i)))
             return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;
@@ -101,6 +101,13 @@ void stringsReplaceSuffixes(int amount, char **arrayStrings, char **arraySuffixe
     }
 }
 
+// Очищение памяти двумерного массива
+void freeArray(int n, char **matrix)
+{
+    for (int i = 0; i < n; i++)
+        free(*(matrix + i));
+    free(matrix);
+}
 
 /*
 8.2. Задается массив строк. Каждая строка включает в себя Фамилию Имя Отчество.
