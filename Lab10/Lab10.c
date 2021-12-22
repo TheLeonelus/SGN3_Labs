@@ -5,6 +5,7 @@
 
 #define MAX_SIZE 15
 #define SUBJECT_COUNT 5
+#define F_AMOUNT 2
 
 typedef struct student
 {
@@ -25,14 +26,12 @@ void averageGradeDefine(student *array, int amount);
 int deleteStudents(student *array, int amount);
 int sortArrayByName(student *array, int amount);
 int stringCompare(const void *a, const void *b);
-void arrayFullfill_s(student *array);
 
 int main()
 {
     int amount = inputAmount();
     student *array = (student *)malloc(amount * sizeof(student));
     arrayFullfill(array, amount);
-    //arrayFullfill_s(array);
     groupDefine(array, amount);
     if (sortArrayByName(array, amount))
         return EXIT_FAILURE;
@@ -71,11 +70,11 @@ void arrayFullfill(student *array, int amount)
         getchar();
         printf_s("\nStudent №%i. \nInput name: ", i + 1);
         fgets((array + i)->name, MAX_SIZE, stdin);
-        (array + i)->name[strcspn((array + i)->name, "\r\n")] = 0;
+        *((array + i)->name + strcspn((array + i)->name, "\r\n")) = 0;
         *(array + i)->name = toupper(*(array + i)->name);
         printf_s("\nInput surname:");
         fgets((array + i)->surname, MAX_SIZE, stdin);
-        (array + i)->surname[strcspn((array + i)->surname, "\r\n")] = 0;
+        *((array + i)->surname + strcspn((array + i)->surname, "\r\n")) = 0;
         *(array + i)->surname = toupper(*(array + i)->surname);
         while (1) {
             printf_s("\nInput age: ");
@@ -89,8 +88,8 @@ void arrayFullfill(student *array, int amount)
         for (int j = 0; j < SUBJECT_COUNT; j++) {
             while (1) {
                 printf_s("\nGrade №%i: ", j + 1);
-                scanf("%i", &(array + i)->grade[j]);
-                if ((array + i)->grade[j] > 5 || (array + i)->grade[j] < 2)
+                scanf("%i", &*((array + i)->grade + j));
+                if (*((array + i)->grade + j) > 5 || *((array + i)->grade + j) < 2)
                     printf_s("\nInappropriate input! Please try again.");
                 else
                     break;
@@ -105,12 +104,12 @@ void groupDefine(student *array, int amount)
     for (int i = 0; i < amount; i++) {
         (array + i)->group = 5;
         for (int j = 0; j < 5; j++) {
-            if ((array + i)->grade[j] == 2) {
+            if (*((array + i)->grade + j) == 2) {
                 (array + i)->group = 2;
                 break;
             }
-            if ((array + i)->grade[j] < (array + i)->group)
-                (array + i)->group = (array + i)->grade[j];
+            if (*((array + i)->grade + j) < (array + i)->group)
+                (array + i)->group = *((array + i)->grade + j);
         }
     }
 }
@@ -150,7 +149,7 @@ void arrayOutput(student *array, int amount)
     {
         printf_s("\n{name: %.8s | surname: %.8s | age: %i | grades:", (array + i)->name, (array + i)->surname, (array + i)->age);
         for (int j = 0; j < SUBJECT_COUNT; j++)
-            printf_s(" %i |", (array + i)->grade[j]);
+            printf_s(" %i |", *((array + i)->grade + j));
         printf_s(" average grade: %3.3f | group: %i", (array + i)->averageGrade, (array + i)->group);
     }
 }
@@ -162,7 +161,7 @@ void averageGradeDefine(student *array, int amount)
     {
         (array + i)->averageGrade = 0.0;
         for (int j = 0; j < SUBJECT_COUNT; j++)
-            (array + i)->averageGrade += (array + i)->grade[j];
+            (array + i)->averageGrade += *((array + i)->grade + j);
         double temp = SUBJECT_COUNT;
         (array + i)->averageGrade = (array + i)->averageGrade / temp;
     }
@@ -179,10 +178,10 @@ int deleteStudents(student *array, int amount)
         int count = 0;
         for (int j = 0; j < 5; j++)
         {
-            if ((array + i)->grade[j] == 2)
+            if (*((array + i)->grade + j) == 2)
                 count++;
         }
-        if (count > 2)
+        if (count > F_AMOUNT)
         {
             buff--;
             for (int j = i; j < buff; j++)
@@ -240,49 +239,7 @@ int stringCompare(const void *a, const void *b)
     return strcmp(*(const char **)a, *(const char **)b);
 }
 
-void arrayFullfill_s(student *array)
-{
-    strcpy(array->name, "John");
-    strcpy(array->surname, "Smith");
-    array->age = 24;
-    array->grade[0] = 3;
-    array->grade[1] = 4;
-    array->grade[2] = 5;
-    array->grade[3] = 3;
-    array->grade[4] = 4;
-    strcpy((array + 1)->name, "Alex");
-    strcpy((array + 1)->surname, "Karuso");
-    (array + 1)->age = 18;
-    (array + 1)->grade[0] = 2;
-    (array + 1)->grade[1] = 2;
-    (array + 1)->grade[2] = 2;
-    (array + 1)->grade[3] = 4;
-    (array + 1)->grade[4] = 3;
-    strcpy((array + 2)->name, "Alise");
-    strcpy((array + 2)->surname, "Mitchel");
-    (array + 2)->age = 14;
-    (array + 2)->grade[0] = 5;
-    (array + 2)->grade[1] = 4;
-    (array + 2)->grade[2] = 3;
-    (array + 2)->grade[3] = 4;
-    (array + 2)->grade[4] = 5;
-    strcpy((array + 3)->name, "Stephan");
-    strcpy((array + 3)->surname, "Curry");
-    (array + 3)->age = 17;
-    (array + 3)->grade[0] = 4;
-    (array + 3)->grade[1] = 2;
-    (array + 3)->grade[2] = 2;
-    (array + 3)->grade[3] = 2;
-    (array + 3)->grade[4] = 3;
-    strcpy((array + 4)->name, "Michael");
-    strcpy((array + 4)->surname, "Williams");
-    (array + 4)->age = 20;
-    (array + 4)->grade[0] = 4;
-    (array + 4)->grade[1] = 5;
-    (array + 4)->grade[2] = 5;
-    (array + 4)->grade[3] = 4;
-    (array + 4)->grade[4] = 3;
-}
+
 /*
 Условие Л.р. №10
 10.1.
