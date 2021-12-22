@@ -5,7 +5,6 @@
 #include <stdlib.h>
 
 char* removespaces(char *s);
-int arrayFullfill(char* string);
 
 int main()
 {
