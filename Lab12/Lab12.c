@@ -11,7 +11,8 @@ int main()
     FILE* f;
     f = fopen("file.bin", "r+b");
     if (!f) {
-        f = fopen("file.bin", "w+b");
+        perror("File opening failed");
+        return EXIT_FAILURE;
     }
     fclose(f);
     int choice = menuInOut();
