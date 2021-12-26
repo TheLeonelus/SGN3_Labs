@@ -1,8 +1,9 @@
 #define _CRT_SECURE_NO_WARNINGS
+#pragma warning (disable : 26451)
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <locale.h>
 #include <io.h>
 
 char* removespaces(char* s);
@@ -29,10 +30,14 @@ int main()
         return EXIT_FAILURE;
     fclose(f);
     removespaces(array); 
-    printf("\n========\nString with removed spaces:\n\"%s\"\n========\n", array);
+    printf("\n========\n"
+           "String with removed spaces : \n\"%s\""
+           "\n========\n", array);
     numberingArray(array);
     writeArrayToFile(array, f);
-    printf("\n========\nString numbered:\n\"%s\"\n========\n", array);
+    printf("\n========\n"
+           "String numbered : \n\"%s\""
+           "\n========\n", array);
     free(array);
     return EXIT_SUCCESS;
 }
@@ -89,7 +94,8 @@ char* strins(char* s, char* sub_s)
 void writeToArrayFromFile(FILE* f, char* array)
 {
     int c, j = 0;
-    printf_s("========\nOriginal string: \n\n\"");
+    printf_s("========\n"
+             "Original string : \n\n\"");
     while ((c = fgetc(f)) != EOF) {
         *(array + j) = putchar(c);
         j++;

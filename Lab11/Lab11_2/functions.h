@@ -1,4 +1,5 @@
 #ifndef _ADDITONAL_FUNCTIONS
+#define _ADDITIONAL_FUNCTIONS
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,6 +7,7 @@
 #include <synchapi.h>
 #include <string.h>
 #include <conio.h>
+#include <io.h>
 
 #define MAX_SIZE 30
 
@@ -17,7 +19,6 @@ typedef struct game
     int rating;
 }game;
 
-#define _ADDITIONAL_FUNCTIONS
 void gotoxy(int x, int y);
 int menuInOut();
 game structInput();

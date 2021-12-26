@@ -1,5 +1,6 @@
 ﻿#ifndef _CRT_SECURE_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
+#pragma warning (disable : 6031)
 #endif
 
 #include "functions.h"
@@ -33,7 +34,7 @@ int getElementsCount(FILE* f)
 void setFileSize(FILE* f, long newSize)
 {
     int fileDescriptor = _fileno(f);
-    chsize(fileDescriptor, newSize);
+    _chsize(fileDescriptor, newSize);
 }
 
 // Записывает переданную структуру в файл
