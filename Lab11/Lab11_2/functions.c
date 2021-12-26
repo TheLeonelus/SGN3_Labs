@@ -3,8 +3,7 @@
 #pragma warning (disable : 6031)
 #endif
 
-
-#include "functions.h"
+#include "utility.h"
 
 // Функция основного меню
 int menuInOut()
