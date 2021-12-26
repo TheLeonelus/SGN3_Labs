@@ -4,6 +4,7 @@
 #endif
 
 #include "functions.h"
+#include "utility.h"
 
 int main()
 {
