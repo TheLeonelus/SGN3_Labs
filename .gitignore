@@ -61,6 +61,7 @@ x64/Release
 Lab01_2.c
 Lab01_1.c
 *.sln
+*.htm
 
 # Plain
 *.txt
