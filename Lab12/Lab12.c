@@ -6,6 +6,8 @@
 #include "functions.h"
 #include "utility.h"
 
+// #define // для 1, 2, 3, 4, 5 выбора
+
 int main()
 {
     FILE* f;
@@ -37,7 +39,7 @@ int main()
                     return EXIT_FAILURE;
                 }
                 int sortChoice = fieldToSortChoose();
-                switch (sortChoice) {
+                switch (sortChoice) { // вынести
                 case 1: {
                     sortFile(f, compareByName);
                     break;

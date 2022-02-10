@@ -11,16 +11,12 @@
 
 #include "struct.h"
 
-void gotoxy(int x, int y);
+void gotoxy(int x, int y); // не выносить в header
 int getFileSizeInBytes(FILE* f);
 int getElementsCount(FILE* f);
 void setFileSize(FILE* f, long newSize);
-void writeElementInFile(FILE* f, const game student, int index);
+void writeElementInFile(FILE* f, const game student, int index); // вынести в gamefile.h
 game readElementFromFile(FILE* f, int index);
 void swapRecordsInFile(FILE* f, int index1, int index2);
-int compareByName(game record1, game record2);
-int compareByDeveloper(game record1, game record2);
-int compareByPublisher(game record1, game record2);
-int compareByRating(game record1, game record2);
 
 #endif

@@ -11,7 +11,7 @@
 
 #include "struct.h"
 
-int menuInOut();
+int menuInOut(); // вынести всё, что работает с консолью в printscan.h
 game structInput();
 int structWriteInFile(FILE* f);
 int filePrint(FILE* f);

@@ -10,4 +10,9 @@ typedef struct game
     int rating;
 }game;
 
+int compareByName(game record1, game record2);
+int compareByDeveloper(game record1, game record2);
+int compareByPublisher(game record1, game record2);
+int compareByRating(game record1, game record2);
+
 #endif

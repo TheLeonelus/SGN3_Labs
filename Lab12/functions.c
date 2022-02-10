@@ -95,7 +95,7 @@ int filePrint(FILE *f)
     int count = getElementsCount(f);
     for (int i = 0; i < count; i++) {
         game record = readElementFromFile(f, i);
-        printf_s("\n=====Element [#%i]=====", (i + 1));
+        printf_s("\n=====Element [#%i]=====", (i + 1)); // вынести printf в отдельную фукнцию
         printf_s("\n= Game: %s", record.name);
         printf_s("\n= Developer: %s", record.developer);
         printf_s("\n= Publisher: %s", record.publisher);
@@ -178,8 +178,7 @@ void sortFile(FILE* f, int (*cmp)(game record1, game record2))
         {
             record1 = readElementFromFile(f, i);
             record2 = readElementFromFile(f, j);
-
-            if (cmp(record1, record2) == 1)
+            if (cmp(record1, record2) >= 1)
                 swapRecordsInFile(f, i, j);
         }
     }

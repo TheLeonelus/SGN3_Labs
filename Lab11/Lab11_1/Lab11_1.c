@@ -48,7 +48,7 @@ char* removespaces(char* s)
     while (*s == ' ')
         strcpy(s, s + 1);
     unsigned int len = strlen(s);
-    while (*(s + len - 2) == ' ') {
+    while (*(s + len - 2) == ' ' || *(s + len - 2) == '\n') {
         *(s + len - 1) = '\0';
         len = strlen(s);
         if (*(s + len - 2) != ' ')
