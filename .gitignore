@@ -53,16 +53,14 @@ dkms.conf
 
 # Folders
 Debug
-.vs 
+.vs
 x64/Release
-
+.vscode
 # Project
-*.vcxproj*
-Lab01_2.c
-Lab01_1.c
-*.sln
+
 *.htm
 *.html
 
 # Plain
 *.txt
+*.log
