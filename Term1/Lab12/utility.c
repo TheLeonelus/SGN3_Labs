@@ -1,7 +1,7 @@
 ﻿#ifndef _CRT_SECURE_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
 #endif
-
+#pragma warning (disable : 4996)
 #include "functions.h"
 
 // Перемещает курсор на заданную позицию
