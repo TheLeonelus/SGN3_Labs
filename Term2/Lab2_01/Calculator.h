@@ -2,11 +2,12 @@
 
 #include "ui_Calculator.h"
 
-#include <QWidget>
-#include <QApplication>
-#include <QStack>
+#include <QtCore>
 #include <QLCDNumber>
-#include <QRegularExpression>
+#include <QtMath>
+#include <QColorDialog>
+
+#define PRECISION 0.000000001
 
 class QLCDNumber;
 class QPushButton;
@@ -19,12 +20,16 @@ private:
     QLCDNumber* m_debug;
     QStack<QString> m_stk;
     QString         m_strDisplay;
+    double sumInMemory;
 
 public:
     Calculator(QWidget* pwgt = 0);
-    QPushButton* createButton(const QString& str);
-    void calculate();
+    QPushButton* createButton(const QString& str, const QColor col);
+    QPushButton* createButtonOfUnaryOperator(const QString& str, const QColor col);
+    void calculateBinaryOperation();
+    void abortOperation();
 
 public slots:
     void slotButtonClicked();
+    void unaryOperatorButtonClicked();
 };
