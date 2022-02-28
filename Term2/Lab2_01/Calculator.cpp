@@ -1,11 +1,12 @@
-#include "Calculator.h"
+#include "calculator.h"
 
 Calculator::Calculator(QWidget* pwgt/*= 0*/) : QWidget(pwgt)
 {
-  //const QChar MathSymbolSquareRoot((QChar) 0x221A);
+ // const QChar MathSymbolSquareRoot((QChar) 0x221A);
 
     m_plcd = new QLCDNumber(16); // Electronic display
     m_plcd->setSegmentStyle(QLCDNumber::Flat); // Tiled format of buttons
+    m_plcd->setStyleSheet("background: gray ; color: white ; margin: 1px ; border: 0px ;");
     m_plcd->setMinimumSize(120, 40);
     int lines = 4, columns = 8, unaryOpColumns = columns - 5;
     //Array of string buttons
@@ -24,7 +25,7 @@ Calculator::Calculator(QWidget* pwgt/*= 0*/) : QWidget(pwgt)
     // QPushButton creation and connect
     for (int i = 0; i < lines; ++i) {
         for (int j = 0; j <= unaryOpColumns; ++j) {
-            QColor col = QColor(255, 196, 148, 100);
+            QColor col = QColor(255, 195, 150, 100);
             ptopLayout->addWidget(createButtonOfUnaryOperator(aButtons[i][j], col), i + 2, j);
         }
         for (int j = unaryOpColumns + 1; j < columns; ++j) {
@@ -33,7 +34,6 @@ Calculator::Calculator(QWidget* pwgt/*= 0*/) : QWidget(pwgt)
         }
     }
     setLayout(ptopLayout);
-    // ui.setupUi(this);
 }
 
 
@@ -43,7 +43,7 @@ QPushButton* Calculator::createButton(const QString& str, const QColor col)
 {
     QPushButton* pcmd = new QPushButton(str);
     if(col.isValid()) {
-       QString qss = QString("QPushButton { background-color: %1 ; margin: 1px ; border: 0px ;}").arg(col.name());
+       QString qss = QString("QPushButton { background-color: %1 ; margin: 1px ; border: 0px ; color: white ;}").arg(col.name());
        pcmd->setStyleSheet(qss);
     }
     pcmd->setMinimumSize(50, 50);
@@ -58,7 +58,7 @@ QPushButton* Calculator::createButtonOfUnaryOperator(const QString& str, const Q
     QPushButton* pcmd = new QPushButton(str);
     if(col.isValid()) {
      // QString qss = QString("QPushButton:pressed { background-color: rgba(0,0,148,100) ; margin: 1px ; border: 0px; } ; QPushButton:released {background-color: rgba(150,196,148,100) ; margin: 1px ; border: 0px ; }").arg(col.name());
-        QString qss = QString("QPushButton { background-color: %1 ; margin: 1px ; border: 0px ;}").arg(col.name());
+        QString qss = QString("QPushButton { background-color: %1 ; margin: 1px ; border: 0px ; color: white ;}").arg(col.name());
         pcmd->setStyleSheet(qss);
     }
     pcmd->setMinimumSize(50, 50);
@@ -84,20 +84,25 @@ void Calculator::slotButtonClicked()
                 abortOperation();
                 return;
         }
-        m_plcd->display(m_strDisplay);
+        m_plcd->display(m_strDisplay.toDouble());
         return;
     }
     // Button *number* pressed
-    if (str.contains(QRegularExpression("[0-9]"))) {
+    if (str == "0") {
+        m_strDisplay += str;
+        m_plcd->display(m_strDisplay);
+        return;
+    }
+    if (str.contains(QRegularExpression("[1-9]"))) {
         m_strDisplay += str;
         m_plcd->display(m_strDisplay.toDouble());
     }
     else {
         // Button . pressed
         if (str == ".") {
-            if (!m_strDisplay.endsWith("."))
+            if (!m_strDisplay.contains("."))
                 m_strDisplay += str;
-            m_plcd->display(m_strDisplay.toDouble());
+            m_plcd->display(m_strDisplay);
         }
         else {
             // Binary operator pressed
@@ -112,7 +117,7 @@ void Calculator::slotButtonClicked()
                 }
             }
             else {
-
+            // if stack contains only one operand
                 if(str == "=")
                     return;
                 m_stk.push(QString().setNum(m_plcd->value()));
@@ -138,8 +143,10 @@ void Calculator::unaryOperatorButtonClicked()
     }
 
     // Button Memory Clear pressed
-    if (strOperation == "MC")
+    if (strOperation == "MC") {
         sumInMemory = 0;
+        return;
+    }
 
     // Button Memory Addition pressed
     if (strOperation == "M+") {
@@ -157,7 +164,7 @@ void Calculator::unaryOperatorButtonClicked()
         m_strDisplay = QString().setNum(sumInMemory);
 
     if (m_strDisplay.isEmpty() == false) {
-        if (true) {
+        if (m_stk.top() != "+" || m_stk.top() != "-" || m_stk.top() != "\302\261" || m_stk.top() != "\302\227") {
             m_stk.push(QString().setNum(m_plcd->value()));
             double dResult = 0;
             double dOperand = m_stk.pop().toDouble();
