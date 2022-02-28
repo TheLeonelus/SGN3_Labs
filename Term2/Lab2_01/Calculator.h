@@ -1,8 +1,11 @@
 #pragma once
 
-#include "ui_Calculator.h"
-
 #include <QtCore>
+#include <QObject>
+#include <QWidget>
+#include <QPushButton>
+#include <QGridLayout>
+#include <QApplication>
 #include <QLCDNumber>
 #include <QtMath>
 #include <QColorDialog>
